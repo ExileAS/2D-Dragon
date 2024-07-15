@@ -25,10 +25,8 @@ public class PlayerMovement : MonoBehaviour
         horizontalInput = Input.GetAxis("Horizontal");
         isRunning = horizontalInput > 0.01F || horizontalInput < -0.01F;
         body.gravityScale = (IsTouchingWall() && !IsGrounded()) ? 0.1f : 2;
+        body.velocity = (IsTouchingWall() && !IsGrounded()) ? Vector2.zero : body.velocity;
         pressedSpacekey = Input.GetKeyDown(KeyCode.Space);
-        Debug.Log(isRunning);
-
-        // respond to horizontal movement
         
 
         // invert player x-axis scale (1 or -1)
@@ -52,6 +50,7 @@ public class PlayerMovement : MonoBehaviour
 
         if(wallJumpCD > 0.2) {
             body.velocity = new Vector2(horizontalInput * speed, body.velocity.y);
+            // respond to horizontal movement (stop player after about 4 frames if he just wall jamp, otherwise respond to input every frame)
             if(IsTouchingWall() && !IsGrounded() && pressedSpacekey) {
                 if(isRunning) {
                     WallJump();
@@ -83,7 +82,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void WallJump() {
-        body.velocity = new Vector2(-Mathf.Sign(transform.localScale.x), 6);
+        body.velocity = new Vector2(-Mathf.Sign(transform.localScale.x) * 3, 6);
         wallJumpCD = 0;
         anim.SetTrigger("jump trigger");
     }
