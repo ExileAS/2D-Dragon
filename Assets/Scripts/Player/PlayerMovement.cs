@@ -25,9 +25,8 @@ public class PlayerMovement : MonoBehaviour
         horizontalInput = Input.GetAxis("Horizontal");
         isRunning = horizontalInput > 0.01F || horizontalInput < -0.01F;
         body.gravityScale = (IsTouchingWall() && !IsGrounded()) ? 0.1f : 2;
-        body.velocity = (IsTouchingWall() && !IsGrounded()) ? Vector2.zero : body.velocity;
         pressedSpacekey = Input.GetKeyDown(KeyCode.Space);
-        
+
 
         // invert player x-axis scale (1 or -1)
         if(horizontalInput > 0.01F) {
@@ -100,5 +99,9 @@ public class PlayerMovement : MonoBehaviour
 
         // supply animator with "is grounded" value
         anim.SetBool("is grounded", IsGrounded());
+    }
+
+    public bool CanAttack() {
+        return IsGrounded() && !isRunning;
     }
 }
