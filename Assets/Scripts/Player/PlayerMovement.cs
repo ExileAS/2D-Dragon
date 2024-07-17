@@ -5,6 +5,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Rigidbody2D body;
     [SerializeField] private Animator anim;
     [SerializeField] private float speed;
+    [SerializeField] private float jumpPower;
     [SerializeField] private BoxCollider2D boxCollider;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private LayerMask wallLayer;
@@ -26,7 +27,6 @@ public class PlayerMovement : MonoBehaviour
         isRunning = horizontalInput > 0.01F || horizontalInput < -0.01F;
         body.gravityScale = (IsTouchingWall() && !IsGrounded()) ? 0.3f : 2;
         pressedSpacekey = Input.GetKeyDown(KeyCode.Space);
-
 
         // invert player x-axis scale (1 or -1)
         if(horizontalInput > 0.01F) {
@@ -66,7 +66,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void Jump() {
-        body.velocity = new Vector2(body.velocity.x, speed);
+        body.velocity = new Vector2(body.velocity.x, jumpPower);
         anim.SetTrigger("jump trigger");
     }
 
