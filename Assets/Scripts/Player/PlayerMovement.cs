@@ -25,7 +25,6 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void Update() {
-        Debug.Log(IsGrounded());
         horizontalInput = Input.GetAxis("Horizontal");
         isRunning = horizontalInput > 0.01F || horizontalInput < -0.01F;
         body.gravityScale = (IsTouchingWall() && !IsGrounded()) ? 0.3f : 2;
@@ -54,7 +53,7 @@ public class PlayerMovement : MonoBehaviour
             body.velocity = new Vector2(horizontalInput * speed, body.velocity.y);
             // respond to horizontal movement (stop player after about 4 frames if he just wall jamp, otherwise respond to input every frame)
             if(IsTouchingWall() && !IsGrounded()) {
-                body.velocity = Vector2.zero;
+                body.velocity = new Vector2(body.velocity.x, 0);
                 if(pressedSpacekey) {
                     if(isRunning) {
                         WallJump();
@@ -80,14 +79,14 @@ public class PlayerMovement : MonoBehaviour
 
     private bool IsGrounded() {
         // RaycastHit2D raycastBox = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.down, 0.1f, groundLayer);
-        RaycastHit2D raycastBox = Physics2D.BoxCast(capsuleCollider.bounds.center, capsuleCollider.bounds.size, 0, Vector2.down, 0.1f, groundLayer);
-        return raycastBox.collider != null;
+        RaycastHit2D raycastCapsule = Physics2D.CapsuleCast(capsuleCollider.bounds.center,capsuleCollider.bounds.size,CapsuleDirection2D.Vertical,0,Vector2.down, 0.1f, groundLayer);
+        return raycastCapsule.collider != null;
     }
 
     private bool IsTouchingWall() {
         // RaycastHit2D raycastBox = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, new Vector2(transform.localScale.x,0), 0.1f, wallLayer);
-        RaycastHit2D raycastBox = Physics2D.BoxCast(capsuleCollider.bounds.center, capsuleCollider.bounds.size, 0, new Vector2(transform.localScale.x,0), 0.1f, wallLayer);
-        return raycastBox.collider != null;
+        RaycastHit2D raycastCapsule = Physics2D.CapsuleCast(capsuleCollider.bounds.center,capsuleCollider.bounds.size,CapsuleDirection2D.Horizontal,0,new Vector2(transform.localScale.x, 0), 0.1f, wallLayer);
+        return raycastCapsule.collider != null;
     }
 
     private void WallJump() {
