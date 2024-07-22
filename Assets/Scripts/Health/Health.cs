@@ -2,32 +2,50 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
+    [Header("Health")]
     [SerializeField] private float maxHealth;
     public float currentHealth { get; private set; }
     private Animator anim;
     private bool dead;
+
+    [Header("IFrames")]
+    private bool isInvulnerable;
+    [SerializeField] private float IFrameTimer;
+    [SerializeField] private float IFrameTimeLimit = 2;
 
     private void Awake() {
         currentHealth = maxHealth;
         anim = GetComponent<Animator>();
     }
 
+    private void Update() {
+        if(isInvulnerable) {
+            IFrameTimer += Time.deltaTime;
+        }
+
+        if(isInvulnerable && IFrameTimer > IFrameTimeLimit) {
+            isInvulnerable = false;
+            IFrameTimer = 0;
+            Physics2D.IgnoreLayerCollision(10, 11, false);
+        }
+    }
+
     public void TakeDamage(float damage) {
-        currentHealth = Mathf.Max(currentHealth - damage, 0);
-        // currentHealth = Mathf.Clamp(currentHealth-damage, 0, maxHealth);
+        if(isInvulnerable || dead) return;
+        
+        currentHealth = Mathf.Clamp(currentHealth-damage, 0, maxHealth);
 
         if(currentHealth > 0) {
-            // player hurt
             anim.SetTrigger("hurt");
-            // create IFrames
+            isInvulnerable = true;
+            Physics2D.IgnoreLayerCollision(10, 11, true);
         } else {
-            // player die
             if(!dead) {
                 dead = true;
                 anim.SetTrigger("die");
                 GetComponent<PlayerMovement>().enabled = false;
+                GetComponent<PlayerAttack>().enabled = false;
             }
-
         }
     }
 
