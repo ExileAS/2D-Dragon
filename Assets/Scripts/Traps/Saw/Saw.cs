@@ -9,12 +9,22 @@ public class Saw : MonoBehaviour
     private float rightEdge;
     private bool moveLeft;
 
-    private void Awake() {
+    private void Start() {
         leftEdge = transform.position.x - maxDistance;
         rightEdge = transform.position.x + maxDistance;
     }
 
     private void Update() {
+        HorizontalMovement();
+    }
+
+    private void OnTriggerEnter2D(Collider2D other) {
+        if(other.CompareTag("Player")) {
+            other.GetComponent<Health>().TakeDamage(damage);
+        }
+    }
+
+    private void HorizontalMovement() {
         if(moveLeft) {
             if(transform.position.x < leftEdge) {
                 moveLeft = false;
@@ -27,12 +37,6 @@ public class Saw : MonoBehaviour
             } else {
                 transform.Translate(speed * Time.deltaTime, 0, 0);
             }
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D other) {
-        if(other.CompareTag("Player")) {
-            other.GetComponent<Health>().TakeDamage(damage);
         }
     }
 }

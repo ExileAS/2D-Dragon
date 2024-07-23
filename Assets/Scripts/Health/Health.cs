@@ -9,36 +9,38 @@ public class Health : MonoBehaviour
     private bool dead;
 
     [Header("IFrames")]
-    private bool isInvulnerable;
-    [SerializeField] private float IFrameTimer;
-    [SerializeField] private float IFrameTimeLimit = 2;
+    // private bool isInvulnerable;
+    // [SerializeField] private float IFrameTimer;
+    // [SerializeField] private float IFrameTimeLimit = 2;
+    private SpriteRenderer spriteRend;
 
     private void Awake() {
         currentHealth = maxHealth;
         anim = GetComponent<Animator>();
+        spriteRend = GetComponent<SpriteRenderer>();
     }
 
-    private void Update() {
-        if(isInvulnerable) {
-            IFrameTimer += Time.deltaTime;
-        }
+    // private void Update() {
+    //     if(isInvulnerable) {
+    //         IFrameTimer += Time.deltaTime;
+    //     }
 
-        if(isInvulnerable && IFrameTimer > IFrameTimeLimit) {
-            isInvulnerable = false;
-            IFrameTimer = 0;
-            Physics2D.IgnoreLayerCollision(10, 11, false);
-        }
-    }
+    //     if(isInvulnerable && IFrameTimer > IFrameTimeLimit) {
+    //         isInvulnerable = false;
+    //         IFrameTimer = 0;
+    //         // Physics2D.IgnoreLayerCollision(10, 11, false);
+    //     }
+    // }
 
     public void TakeDamage(float damage) {
-        if(isInvulnerable || dead) return;
-        
+        // if(isInvulnerable || dead) return;
+
         currentHealth = Mathf.Clamp(currentHealth-damage, 0, maxHealth);
 
         if(currentHealth > 0) {
             anim.SetTrigger("hurt");
-            isInvulnerable = true;
-            Physics2D.IgnoreLayerCollision(10, 11, true);
+            // isInvulnerable = true;
+            StartCoroutine(IFrames.CreateIFrames(spriteRend));
         } else {
             if(!dead) {
                 dead = true;
