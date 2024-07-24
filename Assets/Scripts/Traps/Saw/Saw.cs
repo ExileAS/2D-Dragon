@@ -18,12 +18,6 @@ public class Saw : MonoBehaviour
         HorizontalMovement();
     }
 
-    private void OnTriggerEnter2D(Collider2D other) {
-        if(other.CompareTag("Player")) {
-            other.GetComponent<Health>().TakeDamage(damage);
-        }
-    }
-
     private void HorizontalMovement() {
         if(moveLeft) {
             if(transform.position.x < leftEdge) {

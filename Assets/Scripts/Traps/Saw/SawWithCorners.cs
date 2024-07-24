@@ -8,18 +8,15 @@ public class SawWithCorners : MonoBehaviour
     [SerializeField] private float maxDistanceVertical;
     private float leftEdge;
     private float rightEdge;
-    private float topEdge;
     private float bottomEdge;
     private bool moveLeft;
-    private bool moveUp;
     private bool verticalMove;
-    private bool nextMovementDown = true;
+    private bool goUp;
 
 
     private void Start() {
         leftEdge = transform.position.x - maxDistance;
         rightEdge = transform.position.x + maxDistance;
-        topEdge = transform.position.y + maxDistanceVertical;
         bottomEdge = transform.position.y - maxDistanceVertical;
     }
 
@@ -32,20 +29,10 @@ public class SawWithCorners : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        if(other.CompareTag("Player")) {
-            other.GetComponent<Health>().TakeDamage(damage);
-        } 
-
         if(other.CompareTag("edge")) {
-            if(nextMovementDown) {
-                verticalMove = true;
-                nextMovementDown = false;
-            } else {
-                verticalMove = false;
-                nextMovementDown = true;
-                moveUp = false;
-            }
-        }  
+            verticalMove = !verticalMove;
+            goUp = false;
+        }
     }
 
     private void HorizontalMovement() {
@@ -65,15 +52,11 @@ public class SawWithCorners : MonoBehaviour
     }
 
     private void VerticalMovement() {
-        if(moveUp) {
-            if(transform.position.y > topEdge) {
-                moveUp = false;
-            } else {
-                transform.Translate(0, speed * Time.deltaTime, 0);
-            }
+        if(goUp) {
+            transform.Translate(0, speed * Time.deltaTime, 0);
         } else {
             if(transform.position.y < bottomEdge) {
-                moveUp = true;
+                goUp = true;
             } else {
                 transform.Translate(0, -speed * Time.deltaTime, 0);
             }
