@@ -5,6 +5,7 @@ public class DoorDetection : MonoBehaviour
     [SerializeField] private Transform prevRoom;
     [SerializeField] private Transform nextRoom;
     private RoomCameraController cam;
+    [SerializeField] private SpikeHead spikeHead;
 
     private void Awake() {
         cam = Camera.main.GetComponent<RoomCameraController>();
@@ -14,9 +15,11 @@ public class DoorDetection : MonoBehaviour
         if(!other.CompareTag("Player")) return;
 
         if(other.transform.position.x < transform.position.x) {
-            cam.MoveCamera(nextRoom);
+            if(cam.isActiveAndEnabled) cam.MoveCamera(nextRoom);
+            spikeHead.ResetObject(false);
         } else {
-            cam.MoveCamera(prevRoom);
+            if(cam.isActiveAndEnabled) cam.MoveCamera(prevRoom);
+            spikeHead.ResetObject(true);
         }
     }
 }

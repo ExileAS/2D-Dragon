@@ -32,7 +32,7 @@ public class Health : MonoBehaviour
     //     }
     // }
 
-    public void TakeDamage(float damage) {
+    public void TakeDamage(float damage, float IFrameTime = 1.5f) {
         // if(isInvulnerable || dead) return;
 
         currentHealth = Mathf.Clamp(currentHealth-damage, 0, maxHealth);
@@ -40,7 +40,7 @@ public class Health : MonoBehaviour
         if(currentHealth > 0) {
             anim.SetTrigger("hurt");
             // isInvulnerable = true;
-            StartCoroutine(IFrames.CreateIFrames(spriteRend));
+            StartCoroutine(IFrames.CreateIFrames(spriteRend, IFrameTime));
         } else {
             if(!dead) {
                 dead = true;

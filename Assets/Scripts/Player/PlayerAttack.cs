@@ -30,7 +30,7 @@ public class PlayerAttack : MonoBehaviour
 
     private void Attack() {
         hasQueuedAttack = false;
-        int nextInd = NextInPool();
+        int nextInd = ObjectPool.NextInPool(fireBalls);
         if(nextInd == -1) return;
 
         GameObject nextFireBall = fireBalls[nextInd];
@@ -40,12 +40,5 @@ public class PlayerAttack : MonoBehaviour
 
         nextFireBall.transform.position = firePoint.position;
         nextFireBall.GetComponent<Projectile>().SetDirection(Mathf.Sign(transform.localScale.x));
-    }
-
-    private int NextInPool() {
-        for(int i = 0; i < fireBalls.Length; i++) {
-            if(!fireBalls[i].activeInHierarchy) return i;
-        }
-        return -1;
     }
 }

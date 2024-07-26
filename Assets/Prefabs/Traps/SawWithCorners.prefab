@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 3129463886513046916}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 8.48, y: 0.63, z: 0}
+  m_LocalPosition: {x: 8.45, y: 0.63, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -133,7 +133,7 @@ Transform:
   m_GameObject: {fileID: 4131450944913741491}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8.48, y: 0.63, z: 0}
+  m_LocalPosition: {x: -8.45, y: 0.63, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -240,10 +240,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Saw (3)
       objectReference: {fileID: 0}
-    - target: {fileID: 3387919156463379943, guid: 358092590719fd944a77a24822df6d1e, type: 3}
-      propertyPath: m_Layer
-      value: 11
-      objectReference: {fileID: 0}
     - target: {fileID: 5546072199557844387, guid: 358092590719fd944a77a24822df6d1e, type: 3}
       propertyPath: m_SortingLayer
       value: 1
@@ -318,6 +314,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 1
-  speed: 5
+  speed: 7
   maxDistance: 7.7
-  maxDistanceVertical: 7
+  maxDistanceVertical: 5
