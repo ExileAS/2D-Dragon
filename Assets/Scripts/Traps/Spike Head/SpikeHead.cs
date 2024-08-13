@@ -38,7 +38,7 @@ public class SpikeHead : MonoBehaviour
             Debug.DrawRay(transform.position, directions[i], Color.red);
             RaycastHit2D rayHit = Physics2D.Raycast(transform.position, directions[i], distance, playerLayer);
 
-            if(rayHit.collider != null && !attacking) {
+            if(rayHit.collider != null) {
                 attacking = true;
                 destination = directions[i];
                 attackTimer = 0;
@@ -54,7 +54,14 @@ public class SpikeHead : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        attacking = false;
+        if(other.gameObject.layer != 11)
+            attacking = false;
+    }
+
+    private void OnTriggerStay2D(Collider2D other) {
+        if(other.CompareTag("Player")) {
+            attacking = false;
+        }
     }
 
     public void ResetObject(bool _activated) {

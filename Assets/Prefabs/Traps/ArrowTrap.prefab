@@ -99,8 +99,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76e486c583746b248b10574679153e66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  lifeTime: 2.5
+  speed: 9
+  lifeTime: 1.8
 --- !u!61 &1406228767915454129
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -259,8 +259,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76e486c583746b248b10574679153e66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  lifeTime: 2.5
+  speed: 9
+  lifeTime: 1.8
 --- !u!61 &7057349305473555173
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -419,8 +419,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76e486c583746b248b10574679153e66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  lifeTime: 2.5
+  speed: 9
+  lifeTime: 1.8
 --- !u!61 &7502150555677577320
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -579,8 +579,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76e486c583746b248b10574679153e66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  lifeTime: 2.5
+  speed: 9
+  lifeTime: 1.8
 --- !u!61 &5399102519287694747
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -739,8 +739,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76e486c583746b248b10574679153e66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  lifeTime: 2.5
+  speed: 9
+  lifeTime: 1.8
 --- !u!61 &9117868870570116324
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1084,8 +1084,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76e486c583746b248b10574679153e66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  lifeTime: 2.5
+  speed: 9
+  lifeTime: 1.8
 --- !u!61 &8645982011298711682
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1244,8 +1244,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76e486c583746b248b10574679153e66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  lifeTime: 2.5
+  speed: 9
+  lifeTime: 1.8
 --- !u!61 &7063057239033184719
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1404,8 +1404,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76e486c583746b248b10574679153e66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  lifeTime: 2.5
+  speed: 9
+  lifeTime: 1.8
 --- !u!61 &8841475024265371957
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1564,8 +1564,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76e486c583746b248b10574679153e66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  lifeTime: 2.5
+  speed: 9
+  lifeTime: 1.8
 --- !u!61 &2050361949853318612
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1724,8 +1724,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76e486c583746b248b10574679153e66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  lifeTime: 2.5
+  speed: 9
+  lifeTime: 1.8
 --- !u!61 &4789186823082957033
 BoxCollider2D:
   m_ObjectHideFlags: 0

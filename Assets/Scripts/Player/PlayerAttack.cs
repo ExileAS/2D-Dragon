@@ -9,6 +9,7 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private GameObject[] fireBalls;
     [SerializeField] private Transform firePoint;
     private bool hasQueuedAttack;
+    private float lastAttackTime;
 
     
     private void Awake() {
@@ -20,11 +21,14 @@ public class PlayerAttack : MonoBehaviour
         bool pressedAttack = Input.GetMouseButtonDown(0);
 
         if(CDTimer > attackCD) {
-            if(playerMovement.CanAttack() && (pressedAttack || hasQueuedAttack))
+            if(playerMovement.CanAttack() && (pressedAttack || (hasQueuedAttack && (CDTimer - lastAttackTime) < 0.1)))
                 Attack();
         } else {
             CDTimer += Time.deltaTime;
-            if(pressedAttack) hasQueuedAttack = true;
+            if(pressedAttack) {
+                hasQueuedAttack = true;
+                lastAttackTime = CDTimer;
+            }
         }
     }
 
