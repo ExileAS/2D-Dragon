@@ -8,6 +8,7 @@ TagManager:
   - edge
   - enemy
   - Arrow
+  - EnemyCreature
   layers:
   - Default
   - TransparentFX

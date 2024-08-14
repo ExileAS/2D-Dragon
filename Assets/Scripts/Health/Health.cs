@@ -8,7 +8,7 @@ public class Health : MonoBehaviour
     private Animator anim;
     private bool dead;
 
-    [Header("IFrames")]
+    // [Header("IFrames")]
     // private bool isInvulnerable;
     // [SerializeField] private float IFrameTimer;
     // [SerializeField] private float IFrameTimeLimit = 2;
