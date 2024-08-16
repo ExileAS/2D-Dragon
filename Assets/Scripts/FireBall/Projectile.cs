@@ -3,6 +3,7 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     [SerializeField] private float speed;
+    [SerializeField] private float damage;
     private BoxCollider2D boxCollider;
     private Animator anim;
     private bool hit;
@@ -28,10 +29,14 @@ public class Projectile : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        if(other.CompareTag("Player")) return;
-        if(other.CompareTag("EnemyCreature")) {
-            other.GetComponentInParent<EnemyHealth>().TakeDamage(1);
+        if(other.CompareTag("Player")) {
+            other.GetComponent<Health>().TakeDamage(damage, 2, transform.position.x);
         }
+
+        if(other.CompareTag("EnemyCreature")) {
+            other.GetComponent<EnemyHealth>().TakeDamage(damage);
+        }
+        
         hit = true;
         boxCollider.enabled = false;
         anim.SetTrigger("explode");

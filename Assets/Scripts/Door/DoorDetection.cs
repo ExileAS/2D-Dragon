@@ -16,10 +16,10 @@ public class DoorDetection : MonoBehaviour
 
         if(other.transform.position.x < transform.position.x) {
             if(cam.isActiveAndEnabled) cam.MoveCamera(nextRoom);
-            spikeHead.ResetObject(false);
+            if(spikeHead) spikeHead.ResetObject(false);
         } else {
             if(cam.isActiveAndEnabled) cam.MoveCamera(prevRoom);
-            spikeHead.ResetObject(true);
+            if(spikeHead) spikeHead.ResetObject(true);
         }
     }
 }

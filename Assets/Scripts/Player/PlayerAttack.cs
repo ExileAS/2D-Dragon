@@ -6,8 +6,9 @@ public class PlayerAttack : MonoBehaviour
     private float CDTimer = Mathf.Infinity;
     private PlayerMovement playerMovement;
     private Animator anim;
-    [SerializeField] private GameObject[] fireBalls;
+    [SerializeField] private GameObject[] fireBalls = new GameObject[10];
     [SerializeField] private Transform firePoint;
+    [SerializeField] private float bufferDuration;
     private bool hasQueuedAttack;
     private float lastAttackTime;
 
@@ -21,7 +22,7 @@ public class PlayerAttack : MonoBehaviour
         bool pressedAttack = Input.GetMouseButtonDown(0);
 
         if(CDTimer > attackCD) {
-            if(playerMovement.CanAttack() && (pressedAttack || (hasQueuedAttack && (CDTimer - lastAttackTime) < 0.1)))
+            if(playerMovement.CanAttack() && (pressedAttack || (hasQueuedAttack && (CDTimer - lastAttackTime) < bufferDuration)))
                 Attack();
         } else {
             CDTimer += Time.deltaTime;

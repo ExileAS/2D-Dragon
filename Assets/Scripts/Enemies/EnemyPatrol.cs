@@ -15,6 +15,7 @@ public abstract class EnemyPatrol : MonoBehaviour
     private float rightEdge;
     private bool moveLeft;
     protected bool canMove = true;
+    protected float attackTimer;
 
     protected virtual void Awake() {
         leftEdge = transform.position.x - maxDistance;
@@ -42,7 +43,6 @@ public abstract class EnemyPatrol : MonoBehaviour
 
     private void Move(float direction) {
         idleTimer = 0;
-
         transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * direction, transform.localScale.y, transform.localScale.z);
         transform.Translate(speed * direction * Time.deltaTime, 0, 0);
     }
@@ -52,6 +52,7 @@ public abstract class EnemyPatrol : MonoBehaviour
         idleTimer += Time.deltaTime;
 
         if(idleTimer > idleDuration) {
+            attackTimer = 1.5f;
             moveLeft = !moveLeft;
         }
     }
