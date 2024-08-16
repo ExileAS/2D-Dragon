@@ -17,7 +17,7 @@ public class Health : MonoBehaviour
     [SerializeField] private float pushBackMultiplier;
     [SerializeField] private float lerpDownSpeed;
     private float pushBackDirection;
-    private float pushBackMaxValue;
+    private float pushBackInitialValue;
 
     private void Awake() {
         currentHealth = maxHealth;
@@ -37,7 +37,7 @@ public class Health : MonoBehaviour
 
         if(currentHealth > 0) {
             if(hitterPositionX != null) {
-                CalcPushBackMax((float) hitterPositionX);
+                CalcPushBackInitial((float) hitterPositionX);
                 gotHit = true;
             }
             anim.SetTrigger("hurt");
@@ -57,7 +57,7 @@ public class Health : MonoBehaviour
     }
 
     private void HitPushBack() {
-        float pushBack = Mathf.Lerp(pushBackMaxValue, 0, lerpDownSpeed * Time.deltaTime);
+        float pushBack = Mathf.Lerp(pushBackInitialValue, 0, lerpDownSpeed * Time.deltaTime);
 
         hitImpactTimer += Time.deltaTime;
         body.velocity = new Vector2(body.velocity.x - pushBack, body.velocity.y);
@@ -68,8 +68,8 @@ public class Health : MonoBehaviour
         }
     }
 
-    private void CalcPushBackMax(float hitterPositionX) {
+    private void CalcPushBackInitial(float hitterPositionX) {
         pushBackDirection = Mathf.Sign(hitterPositionX - transform.position.x);
-        pushBackMaxValue = pushBackDirection * pushBackMultiplier;
+        pushBackInitialValue = pushBackDirection * pushBackMultiplier;
     }
 }

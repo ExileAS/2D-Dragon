@@ -7109,9 +7109,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 3
-  pushBackDuration: 0.2
-  pushBackMultiplier: 10
-  lerpDownSpeed: 5
+  pushBackDuration: 0.3
+  pushBackMultiplier: 9
+  lerpDownSpeed: 2
 --- !u!1 &1285434641
 GameObject:
   m_ObjectHideFlags: 0
@@ -10433,7 +10433,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9125917440332282830, guid: ed00a20fabc528242b83a925fcc89e16, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
