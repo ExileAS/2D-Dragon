@@ -106,6 +106,7 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 1024
+  impactAudio: {fileID: 8300000, guid: dee6e49a4fc7e054996ae9df13cf86da, type: 3}
 --- !u!61 &616310252977484690
 BoxCollider2D:
   m_ObjectHideFlags: 0

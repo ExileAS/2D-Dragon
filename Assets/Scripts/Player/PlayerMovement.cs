@@ -2,14 +2,22 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private Rigidbody2D body;
-    [SerializeField] private Animator anim;
+
+    private Rigidbody2D body;
+    private Animator anim;
+    private CapsuleCollider2D capsuleCollider;
+
+    [Header("Multipliers")]
     [SerializeField] private float speed;
     [SerializeField] private float jumpPower;
     // [SerializeField] private BoxCollider2D boxCollider;
-    [SerializeField] private CapsuleCollider2D capsuleCollider;
+
+    [Header("Layers")]
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private LayerMask wallLayer;
+
+    [Header("SFX")]
+    [SerializeField] private AudioClip jumpAudio;
     private float horizontalInput;
     private bool isRunning;
     private float wallJumpCD = 0;
@@ -70,6 +78,7 @@ public class PlayerMovement : MonoBehaviour
     private void Jump() {
         body.velocity = new Vector2(body.velocity.x, jumpPower);
         anim.SetTrigger("jump trigger");
+        SFXManager.Instance.PlaySound(jumpAudio);
     }
 
     // private void OnCollisionEnter2D(Collision2D other) {

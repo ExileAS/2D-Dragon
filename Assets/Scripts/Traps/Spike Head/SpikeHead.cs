@@ -2,10 +2,19 @@ using UnityEngine;
 
 public class SpikeHead : MonoBehaviour
 {
+    [Header("Movement")]
     [SerializeField] private float speed;
     [SerializeField] private float distance;
+
+    [Header("Attack Cool Down")]
     [SerializeField] private float attackCD;
+
+    [Header("Player Layer")]
     [SerializeField] private LayerMask playerLayer;
+
+    [Header("SFX")]
+    [SerializeField] private AudioClip impactAudio;
+
     private float attackTimer;
     private Vector3 destination;
     private bool attacking;
@@ -56,6 +65,9 @@ public class SpikeHead : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other) {
         if(other.gameObject.layer != 11)
             attacking = false;
+        if(other.gameObject.layer == 10) 
+            SFXManager.Instance.PlaySound(impactAudio);
+
     }
 
     private void OnTriggerStay2D(Collider2D other) {

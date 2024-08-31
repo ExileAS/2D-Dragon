@@ -16,6 +16,12 @@ public class Health : MonoBehaviour
     private bool gotHit;
     [SerializeField] private float pushBackMultiplier;
     [SerializeField] private float lerpDownSpeed;
+
+    [Header("SFX")]
+    [SerializeField] private AudioClip hurtAudio;
+    [SerializeField] private AudioClip dieAudio;
+    [SerializeField] private AudioClip healAudio;
+
     private float pushBackDirection;
     private float pushBackInitialValue;
 
@@ -41,11 +47,13 @@ public class Health : MonoBehaviour
                 gotHit = true;
             }
             anim.SetTrigger("hurt");
+            SFXManager.Instance.PlaySound(hurtAudio);
             StartCoroutine(IFrames.CreateIFrames(spriteRend, IFrameTime));
         } else {
             if(!dead) {
                 dead = true;
                 anim.SetTrigger("die");
+                SFXManager.Instance.PlaySound(dieAudio);
                 GetComponent<PlayerMovement>().enabled = false;
                 GetComponent<PlayerAttack>().enabled = false;
             }
@@ -54,6 +62,7 @@ public class Health : MonoBehaviour
 
     public void Heal(float value) {
         currentHealth = Mathf.Clamp(currentHealth + value, 0, maxHealth);
+        SFXManager.Instance.PlaySound(healAudio);
     }
 
     private void HitPushBack() {

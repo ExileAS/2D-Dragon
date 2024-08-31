@@ -7,6 +7,10 @@ public abstract class EnemyHealth : MonoBehaviour
     protected bool dead;
     [SerializeField] private Animator anim;
 
+    [Header("SFX")]
+    [SerializeField] private AudioClip hurtAudio;
+    [SerializeField] private AudioClip dieAudio;
+
     private void Awake() {
         currentHealth = maxHealth;
     }
@@ -15,10 +19,12 @@ public abstract class EnemyHealth : MonoBehaviour
 
         if(currentHealth > 0) {
             anim.SetTrigger("hurt");
+            SFXManager.Instance.PlaySound(hurtAudio);
         } else {
             if(!dead) {
                 dead = true;
                 anim.SetTrigger("die");
+                SFXManager.Instance.PlaySound(dieAudio);
             }
         }
     }

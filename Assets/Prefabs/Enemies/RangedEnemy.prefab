@@ -47,6 +47,7 @@ GameObject:
   - component: {fileID: 722653161007472597}
   - component: {fileID: 7119507336295307181}
   - component: {fileID: 3068335912582700721}
+  - component: {fileID: 586008858387216258}
   m_Layer: 11
   m_Name: RangedEnemy
   m_TagString: EnemyCreature
@@ -151,7 +152,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9125917440332282830}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -236,7 +237,7 @@ MonoBehaviour:
   maxDistance: 5
   anim: {fileID: 4418457291860997149}
   damage: 1
-  attackCD: 1.5
+  attackCD: 1.8
   heightOffset: 0.56
   hitBoxDimensions: 1.65
   hitBoxScaleX: 6.48
@@ -259,7 +260,10 @@ MonoBehaviour:
   - {fileID: 0}
   firePoint: {fileID: 4311804808052617021}
   player: {fileID: 0}
+  IFrameTime: 0
   MeleeAttackRange: 2.15
+  swordAttack: {fileID: 8300000, guid: 110a74edc730f344b998cdb4d791e692, type: 3}
+  fireBallAudio: {fileID: 8300000, guid: 7b4b0f788f646d54685d03a47e97a3a4, type: 3}
 --- !u!114 &3068335912582700721
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -274,3 +278,48 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 3
   anim: {fileID: 4418457291860997149}
+  hurtAudio: {fileID: 8300000, guid: 6dd51d227f86b4e4b845d7ef33ebe16f, type: 3}
+  dieAudio: {fileID: 8300000, guid: 6ddbaae3bb7db8541a4e7c541e8cfde1, type: 3}
+--- !u!68 &586008858387216258
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9125917440332282830}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: -0.38367224, y: -1.2261672}
+  - {x: 0.058291435, y: -1.2248049}
+  - {x: 0.33880448, y: -1.2276535}
+  - {x: 0.34627414, y: -1.2211026}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0

@@ -11,6 +11,9 @@ public class Projectile : MonoBehaviour
     private float lifeTime;
     [SerializeField] private float projectileLifeTime;
 
+    [Header("SFX")]
+    [SerializeField] private AudioClip explosionAudio;
+
     private void Awake() {
         boxCollider = GetComponent<BoxCollider2D>();
         anim = GetComponent<Animator>();
@@ -40,6 +43,7 @@ public class Projectile : MonoBehaviour
         hit = true;
         boxCollider.enabled = false;
         anim.SetTrigger("explode");
+        SFXManager.Instance.PlaySound(explosionAudio);
     }
 
     // Called by an animation event at the last frame of the explosion animation

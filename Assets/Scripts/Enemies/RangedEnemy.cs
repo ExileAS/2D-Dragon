@@ -7,8 +7,15 @@ public class RangedEnemy : EnemyAttack
     [SerializeField] private Transform firePoint;
     [SerializeField] private Transform player;
 
+    [Header("Hit IFrames")]
+    [SerializeField] private float IFrameTime;
+
     [Header("Melee Attack")]
     [SerializeField] private float MeleeAttackRange;
+
+    [Header("SFX")]
+    [SerializeField] private AudioClip swordAttack;
+    [SerializeField] private AudioClip fireBallAudio;
     private bool canMeleeAttack;
 
     protected override void Update() {
@@ -18,8 +25,10 @@ public class RangedEnemy : EnemyAttack
         if(isAttacking) {
             if(canMeleeAttack) {
                 anim.SetBool("melee attacking", true);
+                SFXManager.Instance.PlaySound(swordAttack);
             } else {
                 anim.SetBool("melee attacking", false);
+                SFXManager.Instance.PlaySound(fireBallAudio);
                 RangedAttack();
             }
         }
@@ -37,7 +46,7 @@ public class RangedEnemy : EnemyAttack
 
     private void DamagePlayer() {
         if(PlayerInSight() && !Physics2D.GetIgnoreLayerCollision(10, 11) && canMeleeAttack) {
-            playerHealth.TakeDamage(damage, 2, transform.position.x);
+            playerHealth.TakeDamage(damage, IFrameTime, transform.position.x);
         }
     }
 

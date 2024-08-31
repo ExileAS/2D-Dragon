@@ -196,3 +196,4 @@ MonoBehaviour:
   speed: 6.5
   damage: 1
   projectileLifeTime: 4
+  explosionAudio: {fileID: 8300000, guid: be1606f98cf6d2b44add0dec735bc0b8, type: 3}

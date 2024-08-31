@@ -2,13 +2,21 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
+    [Header("Attack Cool Down")]
     [SerializeField] private float attackCD;
     private float CDTimer = Mathf.Infinity;
     private PlayerMovement playerMovement;
     private Animator anim;
+
+    [Header("Fire Balls")]
     [SerializeField] private GameObject[] fireBalls = new GameObject[10];
     [SerializeField] private Transform firePoint;
+
+    [Header("Attack Buffer Duration")]
     [SerializeField] private float bufferDuration;
+
+    [Header("SFX")]
+    [SerializeField] private AudioClip fireBallAudio;
     private bool hasQueuedAttack;
     private float lastAttackTime;
 
@@ -42,6 +50,7 @@ public class PlayerAttack : MonoBehaviour
 
         CDTimer = 0;
         anim.SetTrigger("attack");
+        SFXManager.Instance.PlaySound(fireBallAudio);
 
         nextFireBall.transform.position = firePoint.position;
         nextFireBall.GetComponent<Projectile>().SetDirection(Mathf.Sign(transform.localScale.x));

@@ -6,6 +6,9 @@ public class ArrowTrap : MonoBehaviour
     private float CDTimer;
     [SerializeField] private GameObject[] Arrows;
     [SerializeField] private Transform firePoint;
+
+    [Header("SFX")]
+    [SerializeField] private AudioClip arrowAudio;
   
 
     private void Update() {
@@ -23,5 +26,6 @@ public class ArrowTrap : MonoBehaviour
 
         nextArrow.transform.position = firePoint.position;
         nextArrow.GetComponent<Arrow>().ActivateArrow();
+        SFXManager.Instance.PlaySound(arrowAudio);
     }
 }
