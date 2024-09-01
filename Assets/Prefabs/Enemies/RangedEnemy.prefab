@@ -260,7 +260,7 @@ MonoBehaviour:
   - {fileID: 0}
   firePoint: {fileID: 4311804808052617021}
   player: {fileID: 0}
-  IFrameTime: 0
+  IFrameTime: 2
   MeleeAttackRange: 2.15
   swordAttack: {fileID: 8300000, guid: 110a74edc730f344b998cdb4d791e692, type: 3}
   fireBallAudio: {fileID: 8300000, guid: 7b4b0f788f646d54685d03a47e97a3a4, type: 3}

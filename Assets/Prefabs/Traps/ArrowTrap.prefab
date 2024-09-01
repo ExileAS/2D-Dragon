@@ -985,6 +985,7 @@ MonoBehaviour:
   - {fileID: 2619688030094552225}
   - {fileID: 7830149040701635775}
   firePoint: {fileID: 6587363648662933211}
+  arrowAudio: {fileID: 8300000, guid: 5ecd0810adb64da4f9dbaeb6225e63f8, type: 3}
 --- !u!1 &5579915316948778079
 GameObject:
   m_ObjectHideFlags: 0
