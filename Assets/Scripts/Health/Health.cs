@@ -50,10 +50,18 @@ public class Health : MonoBehaviour
             SFXManager.Instance.PlaySound(hurtAudio);
             StartCoroutine(IFrames.CreateIFrames(spriteRend, IFrameTime));
         } else {
-            if(!dead) {
-                dead = true;
-                anim.SetTrigger("die");
-                SFXManager.Instance.PlaySound(dieAudio);
+            if(dead) return;
+            
+            dead = true;
+            anim.SetTrigger("die");
+            body.velocity = Vector2.zero;
+            SFXManager.Instance.PlaySound(dieAudio);
+
+            bool canRespawn = GetComponent<Respawn>().CanRespawn();
+            if(canRespawn) {
+                GetComponent<Respawn>().RespawnPlayer();
+                dead = false;
+            } else {
                 GetComponent<PlayerMovement>().enabled = false;
                 GetComponent<PlayerAttack>().enabled = false;
             }
