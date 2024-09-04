@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Multipliers")]
     [SerializeField] private float speed;
     [SerializeField] private float jumpPower;
+    [SerializeField] private float jumpBrakeMultiplier;
 
     [Header("Layers")]
     [SerializeField] private LayerMask groundLayer;
@@ -71,7 +72,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         if(!IsGrounded() && Input.GetKeyUp(KeyCode.Space)) {
-            body.velocity = new Vector2(body.velocity.x, body.velocity.y * 0.75f);
+            body.velocity = new Vector2(body.velocity.x, body.velocity.y * jumpBrakeMultiplier);
         }
 
         if(wallJumpCD > 0.2) {
@@ -107,8 +108,8 @@ public class PlayerMovement : MonoBehaviour
     // }
 
     private bool IsGrounded() {
-        RaycastHit2D raycastCapsule = Physics2D.CapsuleCast(capsuleCollider.bounds.center,capsuleCollider.bounds.size,CapsuleDirection2D.Vertical,0,Vector2.down, 0.1f, groundLayer);
-        return raycastCapsule.collider != null;
+        RaycastHit2D raycastCapsule = Physics2D.CapsuleCast(capsuleCollider.bounds.center, capsuleCollider.bounds.size, CapsuleDirection2D.Vertical, 0, Vector2.down, 0.1f, groundLayer);
+        return raycastCapsule.collider != null && body.velocity.y == 0;
     }
 
     private bool IsTouchingWall() {
