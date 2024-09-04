@@ -17,7 +17,7 @@ public class Respawn : MonoBehaviour
 
     public void RespawnPlayer() {
         StartCoroutine(DelayRespawn());
-        StartCoroutine(IFrames.CreateIFrames(spriteRend, 2));
+        StartCoroutine(IFrames.CreateIFrames(spriteRend, 4));
     }
 
     public bool CanRespawn() {
@@ -26,16 +26,18 @@ public class Respawn : MonoBehaviour
     }
 
     private IEnumerator DelayRespawn() {
+        //Syncronous
         var playerMovement =  GetComponent<PlayerMovement>();
         var PlayerAttack = GetComponent<PlayerAttack>();
         playerMovement.enabled = false;
         PlayerAttack.enabled = false;
+        //Asyncronous (non-blocking) makes the caller method non blocking too.
         yield return new WaitForSeconds(2);
+        anim.ResetTrigger("die");
+        transform.position = (Vector3) checkPoint;
+        anim.Play("Respawn");
         playerMovement.enabled = true;
         PlayerAttack.enabled = true;
-        anim.ResetTrigger("die");
-        anim.Play("Idle");
         health.Heal(3);
-        transform.position = (Vector3) checkPoint;
     }
 }

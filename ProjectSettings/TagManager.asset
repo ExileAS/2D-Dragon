@@ -9,6 +9,7 @@ TagManager:
   - enemy
   - Arrow
   - EnemyCreature
+  - Volume
   layers:
   - Default
   - TransparentFX

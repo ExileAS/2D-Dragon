@@ -22,6 +22,9 @@ public class Health : MonoBehaviour
     [SerializeField] private AudioClip dieAudio;
     [SerializeField] private AudioClip healAudio;
 
+    [Header("Game Over")]
+    [SerializeField] private UIManager uiManager;
+
     private float pushBackDirection;
     private float pushBackInitialValue;
 
@@ -51,7 +54,7 @@ public class Health : MonoBehaviour
             StartCoroutine(IFrames.CreateIFrames(spriteRend, IFrameTime));
         } else {
             if(dead) return;
-            
+
             dead = true;
             anim.SetTrigger("die");
             body.velocity = Vector2.zero;
@@ -64,6 +67,7 @@ public class Health : MonoBehaviour
             } else {
                 GetComponent<PlayerMovement>().enabled = false;
                 GetComponent<PlayerAttack>().enabled = false;
+                uiManager.GameOverScreen();
             }
         }
     }
