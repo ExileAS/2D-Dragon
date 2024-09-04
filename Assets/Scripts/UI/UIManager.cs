@@ -12,10 +12,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] private AudioClip gameOverAudio;
     [SerializeField] private AudioClip pauseAudio;
 
-    // [Header("Text")]
-    // [SerializeField] private TextMeshPro soundVolumeText;
-    // [SerializeField] private TextMeshPro musicVolumeText;
-
     private GameObject soundManager;
     private AudioSource soundSource;
     private AudioSource musicSource;
@@ -26,8 +22,6 @@ public class UIManager : MonoBehaviour
         soundManager = FindObjectOfType<SFXManager>().gameObject;
         soundSource = soundManager.GetComponent<AudioSource>();
         musicSource = soundManager.transform.GetChild(0).GetComponent<AudioSource>();
-        Debug.Log(musicSource.name);
-        Debug.Log(soundSource.name);
         soundSource.volume = 0.5f;
         musicSource.volume = 0.4f;
     }
