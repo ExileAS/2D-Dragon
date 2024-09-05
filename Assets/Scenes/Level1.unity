@@ -5133,7 +5133,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &779099777
 Transform:
   m_ObjectHideFlags: 0
@@ -5758,7 +5758,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &940261546
 Transform:
   m_ObjectHideFlags: 0
@@ -8128,6 +8128,7 @@ MonoBehaviour:
   jumpAudio: {fileID: 8300000, guid: 2b01ae868f4d6b64999ff2af2941f16f, type: 3}
   coyoteJumpDuration: 0.25
   maxJumpCount: 2
+  dead: 0
 --- !u!50 &1255353190
 Rigidbody2D:
   serializedVersion: 4
@@ -8140,7 +8141,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 1000
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 2
@@ -8269,7 +8270,7 @@ MonoBehaviour:
   maxHealth: 3
   pushBackDuration: 0.3
   pushBackMultiplier: 9
-  lerpDownSpeed: 2
+  lerpDownSpeed: 10
   hurtAudio: {fileID: 8300000, guid: 27100521e0eb5bb40a0290d2818f3ff0, type: 3}
   dieAudio: {fileID: 8300000, guid: a6a2da644e055d348817648dce0683c8, type: 3}
   healAudio: {fileID: 8300000, guid: 5295be6654d169f40a4bf9d22d8e6172, type: 3}
@@ -11233,6 +11234,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spikes
       objectReference: {fileID: 0}
+    - target: {fileID: 5773762858114005241, guid: 3dea43cfd47b420429f87071018727ee, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -12301,6 +12306,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spikes (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4038672717031082090, guid: 3e9e8a559a04aac4ba41d0f4212e3067, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5507548047756435032, guid: 3e9e8a559a04aac4ba41d0f4212e3067, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
@@ -12377,6 +12386,10 @@ PrefabInstance:
     - target: {fileID: 3701044046711278434, guid: 2bd2a4b69ee7ac7409824ef5efb0315a, type: 3}
       propertyPath: m_Name
       value: SpikeHead
+      objectReference: {fileID: 0}
+    - target: {fileID: 3701044046711278434, guid: 2bd2a4b69ee7ac7409824ef5efb0315a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -12804,7 +12817,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9125917440332282830, guid: ed00a20fabc528242b83a925fcc89e16, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -13388,7 +13401,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 592693399599458947, guid: b09472eb9a8af0e4197b0364872e3505, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3118802541788008884, guid: b09472eb9a8af0e4197b0364872e3505, type: 3}
       propertyPath: m_LocalPosition.x

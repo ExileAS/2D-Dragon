@@ -29,7 +29,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isRunning;
     private float wallJumpCD = 0;
     private bool pressedSpacekey;
-
+    [HideInInspector] public bool dead;
 
 
     private void Awake() {
@@ -39,6 +39,8 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void Update() {
+        if(dead) return;
+
         horizontalInput = Input.GetAxis("Horizontal");
         isRunning = horizontalInput > 0.1F || horizontalInput < -0.1F;
         body.gravityScale = (IsTouchingWall() && !IsGrounded()) ? 0.3f : 2;
