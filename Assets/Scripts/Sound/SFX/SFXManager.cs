@@ -2,12 +2,21 @@ using UnityEngine;
 
 public class SFXManager : MonoBehaviour
 {
-    private AudioSource source;
-    public static SFXManager Instance {get; private set; }
+    private AudioSource soundSource;
+    private AudioSource musicSource;
+    public float currSoundVolume { get; private set; }
+    public float currMusicVolume { get; private set; }
+    public static SFXManager Instance { get; private set; }
 
+    private SFXManager() {}
 
     private void Awake() {
-        source = GetComponent<AudioSource>();
+        soundSource = GetComponent<AudioSource>();
+        musicSource = transform.GetChild(0).GetComponent<AudioSource>();
+        soundSource.volume = PlayerPrefs.GetFloat("SoundVolume", 0.5f);
+        musicSource.volume = PlayerPrefs.GetFloat("MusicVolume", 0.4f);
+        currSoundVolume = soundSource.volume;
+        currMusicVolume = musicSource.volume;
 
         if(Instance == null) {
             Instance = this;
@@ -15,10 +24,29 @@ public class SFXManager : MonoBehaviour
         } else if(Instance != this) {
             Destroy(gameObject);
         }
-        
     }
 
     public void PlaySound(AudioClip audio) {
-        source.PlayOneShot(audio);
+        soundSource.PlayOneShot(audio);
+    }
+
+    public float AdjustVolume(string name, int amount) {
+        AudioSource source = name == "MusicVolume" ? musicSource : soundSource;
+        float change = amount * 0.1f;
+        float newValue = source.volume + change;
+        float correctedValue = VolumeCorrection.CorrectVolumeValue(newValue);
+        source.volume = correctedValue;
+        return correctedValue;
+    }
+
+    public void SavePlayerPrefs() {
+        if(currSoundVolume != soundSource.volume) {
+            PlayerPrefs.SetFloat("SoundVolume", soundSource.volume);
+            currSoundVolume = soundSource.volume;
+        }
+        if(currMusicVolume != musicSource.volume) {
+            PlayerPrefs.SetFloat("MusicVolume", musicSource.volume);
+            currMusicVolume = musicSource.volume;
+        }
     }
 }

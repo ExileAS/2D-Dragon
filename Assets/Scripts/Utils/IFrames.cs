@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class IFrames : MonoBehaviour {
+public static class IFrames {
     private static float numOfFlashes = 3;
 
     public static IEnumerator CreateIFrames(SpriteRenderer spriteRend, float IFrameTime) {

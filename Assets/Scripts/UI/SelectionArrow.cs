@@ -1,6 +1,4 @@
-using System;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -39,14 +37,15 @@ public class SelectionArrow : MonoBehaviour
         if(!decrease && !increase) return;
 
         RectTransform selectedOption = options[currSelection];
-        UIManager uiManager = GetComponentInParent<UIManager>();
         TextMeshProUGUI currText = selectedOption.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
 
         if(increase) {
-            currText.text = uiManager.AdjustVolume(selectedOption.name, 1).ToString();
+            float volumeValue = SFXManager.Instance.AdjustVolume(selectedOption.name, 1);
+            currText.text = VolumeCorrection.GetVolumeToDisplay(volumeValue);
         }
         if(decrease) {
-            currText.text = uiManager.AdjustVolume(selectedOption.name, -1).ToString();
+            float volumeValue = SFXManager.Instance.AdjustVolume(selectedOption.name, -1);
+            currText.text = VolumeCorrection.GetVolumeToDisplay(volumeValue);
         }
     }
 

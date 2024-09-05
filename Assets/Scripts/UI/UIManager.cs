@@ -12,18 +12,15 @@ public class UIManager : MonoBehaviour
     [SerializeField] private AudioClip gameOverAudio;
     [SerializeField] private AudioClip pauseAudio;
 
-    private GameObject soundManager;
-    private AudioSource soundSource;
-    private AudioSource musicSource;
+    [Header("Text")]
+    [SerializeField] private TextMeshProUGUI soundText;
+    [SerializeField] private TextMeshProUGUI musicText;
 
     private void Awake() {
         gameOverScreen.SetActive(false);
         pauseMenu.SetActive(false);
-        soundManager = FindObjectOfType<SFXManager>().gameObject;
-        soundSource = soundManager.GetComponent<AudioSource>();
-        musicSource = soundManager.transform.GetChild(0).GetComponent<AudioSource>();
-        soundSource.volume = 0.5f;
-        musicSource.volume = 0.4f;
+        soundText.text = VolumeCorrection.GetVolumeToDisplay(VolumeCorrection.CorrectVolumeValue(SFXManager.Instance.currSoundVolume));
+        musicText.text = VolumeCorrection.GetVolumeToDisplay(VolumeCorrection.CorrectVolumeValue(SFXManager.Instance.currMusicVolume));
     }
 
     private void Update() {
@@ -36,42 +33,35 @@ public class UIManager : MonoBehaviour
     }
 
     private void Pause() {
-        if(Time.timeScale == 1) 
+        if(!pauseMenu.activeInHierarchy) {
             Time.timeScale = 0;
-        else 
+            pauseMenu.SetActive(true);
+        }
+        else {
             Time.timeScale = 1;
-        TogglePauseMenu();
-    }
-
-    private void TogglePauseMenu() {
-        pauseMenu.SetActive(!pauseMenu.activeInHierarchy);
+            pauseMenu.SetActive(false);
+            SFXManager.Instance.SavePlayerPrefs();
+        }
         SFXManager.Instance.PlaySound(pauseAudio);
     }
 
     public void Restart() {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         Time.timeScale = 1;
+        SFXManager.Instance.SavePlayerPrefs();
     }
 
     public void MainMenu() {
+        SFXManager.Instance.SavePlayerPrefs();
         SceneManager.LoadScene(0);
     }
 
     public void Quit() {
+        SFXManager.Instance.SavePlayerPrefs();
         Application.Quit();
 
         #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
         #endif
-    }
-
-    public int AdjustVolume(string name, int amount) {
-        AudioSource source = name == "MusicVolume" ? musicSource : soundSource;
-        float change = amount * 0.1f;
-        float newValue = source.volume + change;
-        source.volume = newValue;
-        if(newValue < -0.05) source.volume = 1;
-        if(newValue > 1.05) source.volume = 0;
-        return (int) Mathf.Round(source.volume * 100);
     }
 }
