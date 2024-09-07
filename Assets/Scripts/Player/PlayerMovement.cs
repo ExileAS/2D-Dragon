@@ -23,12 +23,18 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float coyoteJumpDuration;
     [SerializeField] private int maxJumpCount;
 
+    [Header("Cool Downs")]
+    [SerializeField] private float WallJumpCD;
+    [SerializeField] private float touchingWallDuration;
+
     private int jumpCount;
     private float coyoteJumpTimer;
     private float horizontalInput;
+    private float wallJumpTimer;
+    private float touchingWallTimer;
     private bool isRunning;
-    private float wallJumpCD = 0;
     private bool pressedSpacekey;
+    private bool touchedWall;
     [HideInInspector] public bool dead;
 
 
@@ -41,7 +47,7 @@ public class PlayerMovement : MonoBehaviour
     private void Update() {
         if(dead) return;
 
-        horizontalInput = Input.GetAxis("Horizontal");
+        horizontalInput = Input.GetAxisRaw("Horizontal");
         isRunning = horizontalInput > 0.1F || horizontalInput < -0.1F;
         body.gravityScale = (IsTouchingWall() && !IsGrounded()) ? 0.3f : 2;
         pressedSpacekey = Input.GetKeyDown(KeyCode.Space);
@@ -49,7 +55,20 @@ public class PlayerMovement : MonoBehaviour
         if(IsGrounded()) {
             coyoteJumpTimer = coyoteJumpDuration;
             jumpCount = 0;
+            touchedWall = false;
+            touchingWallTimer = 0;
         }
+
+        if(touchedWall && !IsTouchingWall()) {
+            if(touchingWallTimer < touchingWallDuration) {
+                touchingWallTimer += Time.deltaTime;
+            }
+            else {
+                touchedWall = false;
+                touchingWallTimer = 0;
+            }
+        }
+        
 
         if(horizontalInput > 0.01F) {
             transform.localScale = Vector3.one;
@@ -77,16 +96,14 @@ public class PlayerMovement : MonoBehaviour
             body.velocity = new Vector2(body.velocity.x, body.velocity.y * jumpBrakeMultiplier);
         }
 
-        if(wallJumpCD > 0.2) {
+        if(wallJumpTimer > WallJumpCD) {
             body.velocity = new Vector2(horizontalInput * speed, body.velocity.y);
-            if(IsTouchingWall()) {
-                body.velocity = new Vector2(body.velocity.x, 0);
-                if(pressedSpacekey) {
-                    WallJump();
-                }
+            if(IsTouchingWall() || touchedWall) {
+                if(IsTouchingWall()) body.velocity = new Vector2(body.velocity.x, 0);
+                if(pressedSpacekey) WallJump();
             } 
         } else {
-                wallJumpCD += Time.deltaTime;
+                wallJumpTimer += Time.deltaTime;
             }
     }
 
@@ -104,37 +121,57 @@ public class PlayerMovement : MonoBehaviour
         jumpCount++;
     }
 
-    // private void OnCollisionEnter2D(Collision2D other) {
-    //     if(other.gameObject.tag == "wallTest") return;
-    //     Debug.Log(other.gameObject.name);
-    // }
-
     private bool IsGrounded() {
-        RaycastHit2D raycastCapsule = Physics2D.CapsuleCast(capsuleCollider.bounds.center, capsuleCollider.bounds.size, CapsuleDirection2D.Vertical, 0, Vector2.down, 0.1f, groundLayer);
+        RaycastHit2D raycastCapsule = Physics2D.CapsuleCast(capsuleCollider.bounds.center, capsuleCollider.bounds.size, 
+        CapsuleDirection2D.Vertical, 0, Vector2.down, 0.1f, groundLayer);
         return raycastCapsule.collider != null && body.velocity.y == 0;
     }
 
     private bool IsTouchingWall() {
-        RaycastHit2D raycastCapsule = Physics2D.CapsuleCast(capsuleCollider.bounds.center,capsuleCollider.bounds.size,CapsuleDirection2D.Horizontal,0,new Vector2(transform.localScale.x, 0), 0.1f, wallLayer);
-        return raycastCapsule.collider != null;
+        RaycastHit2D raycastHit = Physics2D.Raycast(
+            capsuleCollider.bounds.center, 
+            new Vector2(transform.localScale.x, 0).normalized, 
+            capsuleCollider.bounds.size.y / 2 + 0.1f,
+            wallLayer
+        );
+
+        Debug.DrawLine(capsuleCollider.bounds.center, 
+        capsuleCollider.bounds.center + 
+        new Vector3(transform.localScale.x, 0).normalized * (capsuleCollider.bounds.size.y / 2 + 0.1f));
+
+        if (raycastHit.collider != null) {
+            touchedWall = true;
+        }
+
+        return raycastHit.collider != null;
     }
 
+    // private bool IsTouchingWall() {
+    //     RaycastHit2D raycastCapsule = Physics2D.CapsuleCast(capsuleCollider.bounds.center, capsuleCollider.bounds.size, CapsuleDirection2D.Horizontal, 0, new Vector2(transform.localScale.x, 0), 0.1f, wallLayer);
+    //     if (raycastCapsule.collider != null) {
+    //         touchedWall = true;
+    //         touchingWallDirection = Mathf.Sign(transform.localScale.x);
+    //     }
+    //     return raycastCapsule.collider != null;
+    // }
+
     private void WallJumpVertical() {
-        body.velocity = new Vector2(-Mathf.Sign(transform.localScale.x) * 3, 6);
-        wallJumpCD = 0;
+        body.velocity = new Vector2(-Mathf.Sign(transform.localScale.x) * 4, 8);
+        wallJumpTimer = 0;
         anim.SetTrigger("jump trigger");
     }
 
     private void WallJumpHorizontal() {
-        body.velocity = new Vector2(-Mathf.Sign(transform.localScale.x) * 10, 0);
-        transform.localScale = new Vector3(-Mathf.Sign(transform.localScale.x), transform.localScale.y, transform.localScale.z);
-        wallJumpCD = 0;
+        body.velocity = IsTouchingWall() ? new Vector2(-Mathf.Sign(transform.localScale.x) * 10, 0) : new Vector2(Mathf.Sign(transform.localScale.x) * 15, 0);
+        transform.localScale = new Vector3((IsTouchingWall() ? -1 : 1) * Mathf.Sign(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+        wallJumpTimer = 0;
         anim.SetTrigger("jump trigger");
     }
 
     private void WallJump() {
         if(isRunning) {
-            WallJumpVertical();
+            if(IsTouchingWall()) WallJumpVertical();
+            else WallJumpHorizontal();
         } else {
             WallJumpHorizontal();
         }
@@ -156,5 +193,4 @@ public class PlayerMovement : MonoBehaviour
     private bool CanCoyoteJump() {
         return coyoteJumpTimer > 0 && body.velocity.y < 0;
     }
-
 }

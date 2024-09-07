@@ -8117,7 +8117,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 8
-  jumpPower: 10
+  jumpPower: 11
   jumpBrakeMultiplier: 0.6
   groundLayer:
     serializedVersion: 2
@@ -8128,6 +8128,8 @@ MonoBehaviour:
   jumpAudio: {fileID: 8300000, guid: 2b01ae868f4d6b64999ff2af2941f16f, type: 3}
   coyoteJumpDuration: 0.25
   maxJumpCount: 2
+  WallJumpCD: 0.2
+  touchingWallDuration: 0.3
   dead: 0
 --- !u!50 &1255353190
 Rigidbody2D:
@@ -8252,8 +8254,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.02469778, y: -0.54556596}
-  m_Size: {x: 1.1395688, y: 1.3470514}
+  m_Offset: {x: 0.016119242, y: -0.5541445}
+  m_Size: {x: 0.97657824, y: 1.3127377}
   m_Direction: 0
 --- !u!114 &1255353196
 MonoBehaviour:
@@ -13401,7 +13403,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 592693399599458947, guid: b09472eb9a8af0e4197b0364872e3505, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3118802541788008884, guid: b09472eb9a8af0e4197b0364872e3505, type: 3}
       propertyPath: m_LocalPosition.x
