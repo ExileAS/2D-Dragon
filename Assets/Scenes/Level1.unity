@@ -8129,7 +8129,7 @@ MonoBehaviour:
   coyoteJumpDuration: 0.25
   maxJumpCount: 2
   WallJumpCD: 0.2
-  touchingWallDuration: 0.3
+  touchingWallDuration: 0.2
   dead: 0
 --- !u!50 &1255353190
 Rigidbody2D:

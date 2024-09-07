@@ -79,7 +79,7 @@ public class PlayerMovement : MonoBehaviour
 
         ProvideAnimParams();
 
-        if(pressedSpacekey && (IsGrounded() || CanDoubleJump()) && !IsTouchingWall()) {
+        if(pressedSpacekey && (IsGrounded() || CanDoubleJump()) && !IsTouchingWall() && !touchedWall) {
             Jump();
         }
 
@@ -130,7 +130,7 @@ public class PlayerMovement : MonoBehaviour
     private bool IsTouchingWall() {
         RaycastHit2D raycastHit = Physics2D.Raycast(
             capsuleCollider.bounds.center, 
-            new Vector2(transform.localScale.x, 0).normalized, 
+            new Vector2(transform.localScale.x, 0).normalized,
             capsuleCollider.bounds.size.y / 2 + 0.1f,
             wallLayer
         );
