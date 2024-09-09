@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-
     private Rigidbody2D body;
     private Animator anim;
     private CapsuleCollider2D capsuleCollider;
@@ -36,6 +35,7 @@ public class PlayerMovement : MonoBehaviour
     private bool pressedSpacekey;
     private bool touchedWall;
     [HideInInspector] public bool dead;
+    [HideInInspector] public bool paused;
 
 
     private void Awake() {
@@ -45,7 +45,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void Update() {
-        if(dead) return;
+        if(dead || paused) return;
 
         horizontalInput = Input.GetAxisRaw("Horizontal");
         isRunning = horizontalInput > 0.1F || horizontalInput < -0.1F;

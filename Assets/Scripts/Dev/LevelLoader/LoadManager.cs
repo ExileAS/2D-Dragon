@@ -7,6 +7,7 @@ public class LoadManager : MonoBehaviour
 
     private void Awake() {
         sceneCount = SceneManager.sceneCountInBuildSettings;
+        DontDestroyOnLoad(gameObject);
     }
 
     private void Update() {

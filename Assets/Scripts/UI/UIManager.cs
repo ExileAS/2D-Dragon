@@ -16,10 +16,17 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI soundText;
     [SerializeField] private TextMeshProUGUI musicText;
 
+    [Header("Player")]
+    [SerializeField] private PlayerMovement playerMovement;
+    [SerializeField] private PlayerAttack playerAttack;
+
     private void Awake() {
         gameOverScreen.SetActive(false);
         pauseMenu.SetActive(false);
         Application.targetFrameRate = 120;
+        Time.timeScale = 1;
+        playerMovement.paused = false;
+        playerAttack.enabled = true;
         soundText.text = VolumeCorrection.GetVolumeToDisplay(VolumeCorrection.CorrectVolumeValue(SFXManager.Instance.currSoundVolume));
         musicText.text = VolumeCorrection.GetVolumeToDisplay(VolumeCorrection.CorrectVolumeValue(SFXManager.Instance.currMusicVolume));
     }
@@ -37,10 +44,14 @@ public class UIManager : MonoBehaviour
         if(!pauseMenu.activeInHierarchy) {
             Time.timeScale = 0;
             pauseMenu.SetActive(true);
+            playerMovement.paused = true;
+            playerAttack.enabled = false;
         }
         else {
             Time.timeScale = 1;
             pauseMenu.SetActive(false);
+            playerMovement.paused = false;
+            playerAttack.enabled = true;
             SFXManager.Instance.SavePlayerPrefs();
         }
         SFXManager.Instance.PlaySound(pauseAudio);
@@ -48,7 +59,6 @@ public class UIManager : MonoBehaviour
 
     public void Restart() {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        Time.timeScale = 1;
         SFXManager.Instance.SavePlayerPrefs();
     }
 

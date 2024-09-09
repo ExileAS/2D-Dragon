@@ -25,6 +25,7 @@ public abstract class EnemyHealth : MonoBehaviour
                 dead = true;
                 anim.SetTrigger("die");
                 SFXManager.Instance.PlaySound(dieAudio);
+                gameObject.layer = 20;
             }
         }
     }
