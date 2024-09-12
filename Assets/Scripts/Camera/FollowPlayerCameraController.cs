@@ -7,6 +7,10 @@ public class FollowPlayerCameraController : MonoBehaviour
     [SerializeField] private float lookAheadDistance;
     [SerializeField] private float camSpeed;
 
+    private void Awake() {
+        transform.position = new Vector3(player.position.x, transform.position.y, transform.position.z);
+    }
+
     private void Update() {
         transform.position = new Vector3(player.position.x + lookAhead, transform.position.y, transform.position.z);
         lookAhead = Mathf.Lerp(lookAhead, lookAheadDistance * player.localScale.x, camSpeed * Time.deltaTime);
