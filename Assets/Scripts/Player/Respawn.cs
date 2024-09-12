@@ -29,14 +29,14 @@ public class Respawn : MonoBehaviour
         //Syncronous
         var playerMovement =  GetComponent<PlayerMovement>();
         var PlayerAttack = GetComponent<PlayerAttack>();
-        playerMovement.dead = true;
+        playerMovement.enabled = false;
         PlayerAttack.enabled = false;
         //Asyncronous (non-blocking) makes the caller method non blocking too.
         yield return new WaitForSeconds(2);
         anim.ResetTrigger("die");
         transform.position = (Vector3) checkPoint;
         anim.Play("Respawn");
-        playerMovement.dead = false;
+        playerMovement.enabled = true;
         PlayerAttack.enabled = true;
         health.Heal(3);
     }

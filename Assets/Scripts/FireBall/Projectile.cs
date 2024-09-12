@@ -46,7 +46,6 @@ public class Projectile : MonoBehaviour
         SFXManager.Instance.PlaySound(explosionAudio);
     }
 
-    // Called by an animation event at the last frame of the explosion animation
     private void Deactivate() {
         gameObject.SetActive(false);
     }

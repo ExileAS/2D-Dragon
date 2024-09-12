@@ -12,10 +12,11 @@ public class Health : MonoBehaviour
 
     [Header("Hit Push Back")]
     [SerializeField] private float pushBackDuration;
-    private float hitImpactTimer;
-    private bool gotHit;
     [SerializeField] private float pushBackMultiplier;
     [SerializeField] private float lerpDownSpeed;
+    [SerializeField] private float pushAgainstHitSpeed;
+    private float hitImpactTimer;
+    private bool gotHit;
 
     [Header("SFX")]
     [SerializeField] private AudioClip hurtAudio;
@@ -26,17 +27,20 @@ public class Health : MonoBehaviour
     [SerializeField] private UIManager uiManager;
 
     private float pushBackDirection;
-    private float pushBackInitialValue;
+    private float pushBack;
+    private PlayerMovement playerMovement;
 
     private void Awake() {
         currentHealth = maxHealth;
         anim = GetComponent<Animator>();
         spriteRend = GetComponent<SpriteRenderer>();
         body = GetComponent<Rigidbody2D>();
+        playerMovement = GetComponent<PlayerMovement>();
     }
 
     private void Update() {
         if(gotHit) {
+            playerMovement.enabled = false;
             HitPushBack();
         }
     }
@@ -78,19 +82,22 @@ public class Health : MonoBehaviour
     }
 
     private void HitPushBack() {
-        float pushBack = Mathf.Lerp(pushBackInitialValue, 0, lerpDownSpeed * Time.deltaTime);
+        pushBack = Mathf.Lerp(pushBack, 0, lerpDownSpeed * Time.deltaTime);
+        float horizontalInput = Input.GetAxisRaw("Horizontal");
+        playerMovement.LookLeftOrRight(horizontalInput);
 
         hitImpactTimer += Time.deltaTime;
-        body.velocity = new Vector2(body.velocity.x - pushBack, body.velocity.y);
+        body.velocity = new Vector2(horizontalInput * pushAgainstHitSpeed - pushBack, body.velocity.y);
 
         if(hitImpactTimer > pushBackDuration) {
             gotHit = false;
+            playerMovement.enabled = true;
             hitImpactTimer = 0;
         }
     }
 
     private void CalcPushBackInitial(float hitterPositionX) {
         pushBackDirection = Mathf.Sign(hitterPositionX - transform.position.x);
-        pushBackInitialValue = pushBackDirection * pushBackMultiplier;
+        pushBack = pushBackDirection * pushBackMultiplier;
     }
 }

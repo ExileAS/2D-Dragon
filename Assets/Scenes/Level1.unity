@@ -7936,8 +7936,6 @@ MonoBehaviour:
   maxJumpCount: 2
   WallJumpCD: 0.2
   touchingWallDuration: 0.2
-  dead: 0
-  paused: 0
 --- !u!50 &1255353190
 Rigidbody2D:
   serializedVersion: 4
@@ -7974,7 +7972,7 @@ Transform:
   m_GameObject: {fileID: 1255353187}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.81, y: -1.05, z: 0}
+  m_LocalPosition: {x: -1.85, y: -1.05, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -8078,8 +8076,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 3
   pushBackDuration: 0.3
-  pushBackMultiplier: 9
+  pushBackMultiplier: 25
   lerpDownSpeed: 10
+  pushAgainstHitSpeed: 4
   hurtAudio: {fileID: 8300000, guid: 27100521e0eb5bb40a0290d2818f3ff0, type: 3}
   dieAudio: {fileID: 8300000, guid: a6a2da644e055d348817648dce0683c8, type: 3}
   healAudio: {fileID: 8300000, guid: 5295be6654d169f40a4bf9d22d8e6172, type: 3}

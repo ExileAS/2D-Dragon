@@ -34,8 +34,6 @@ public class PlayerMovement : MonoBehaviour
     private bool isRunning;
     private bool pressedSpacekey;
     private bool touchedWall;
-    [HideInInspector] public bool dead;
-    [HideInInspector] public bool paused;
 
 
     private void Awake() {
@@ -45,8 +43,6 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void Update() {
-        if(dead || paused) return;
-
         horizontalInput = Input.GetAxisRaw("Horizontal");
         isRunning = horizontalInput > 0.1F || horizontalInput < -0.1F;
         body.gravityScale = (IsTouchingWall() && !IsGrounded()) ? 0.3f : 2;
@@ -68,15 +64,8 @@ public class PlayerMovement : MonoBehaviour
                 touchingWallTimer = 0;
             }
         }
-        
 
-        if(horizontalInput > 0.01F) {
-            transform.localScale = Vector3.one;
-        } 
-        if(horizontalInput < -0.01F) {
-            transform.localScale = new Vector3(-1, 1, 1);
-        }
-
+        LookLeftOrRight(horizontalInput);
         ProvideAnimParams();
 
         if(pressedSpacekey && (IsGrounded() || CanDoubleJump()) && !IsTouchingWall() && !touchedWall) {
@@ -192,5 +181,14 @@ public class PlayerMovement : MonoBehaviour
 
     private bool CanCoyoteJump() {
         return coyoteJumpTimer > 0 && body.velocity.y < 0;
+    }
+
+    public void LookLeftOrRight(float horizontalInput) {
+        if(horizontalInput > 0.01F) {
+            transform.localScale = Vector3.one;
+        } 
+        if(horizontalInput < -0.01F) {
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
     }
 }

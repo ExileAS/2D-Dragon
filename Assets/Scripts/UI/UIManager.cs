@@ -23,9 +23,8 @@ public class UIManager : MonoBehaviour
     private void Awake() {
         gameOverScreen.SetActive(false);
         pauseMenu.SetActive(false);
-        Application.targetFrameRate = 120;
+        Application.targetFrameRate = 300;
         Time.timeScale = 1;
-        playerMovement.paused = false;
         playerAttack.enabled = true;
         soundText.text = VolumeCorrection.GetVolumeToDisplay(VolumeCorrection.CorrectVolumeValue(SFXManager.Instance.currSoundVolume));
         musicText.text = VolumeCorrection.GetVolumeToDisplay(VolumeCorrection.CorrectVolumeValue(SFXManager.Instance.currMusicVolume));
@@ -44,13 +43,13 @@ public class UIManager : MonoBehaviour
         if(!pauseMenu.activeInHierarchy) {
             Time.timeScale = 0;
             pauseMenu.SetActive(true);
-            playerMovement.paused = true;
+            playerMovement.enabled = false;
             playerAttack.enabled = false;
         }
         else {
             Time.timeScale = 1;
             pauseMenu.SetActive(false);
-            playerMovement.paused = false;
+            playerMovement.enabled = true;
             playerAttack.enabled = true;
             SFXManager.Instance.SavePlayerPrefs();
         }
