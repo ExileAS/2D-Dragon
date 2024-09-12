@@ -20,9 +20,10 @@ public class SFXManager : MonoBehaviour
 
         if(Instance == null) {
             Instance = this;
-            // DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(gameObject);
         } else if(Instance != this) {
-            Destroy(gameObject);
+            Destroy(Instance.gameObject);
+            Instance = this;
         }
     }
 

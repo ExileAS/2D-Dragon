@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Respawn : MonoBehaviour
@@ -21,7 +22,7 @@ public class Respawn : MonoBehaviour
     }
 
     public bool CanRespawn() {
-        checkPoint = checkPointManager.GetCheckPointPosition();
+        if(checkPointManager != null) checkPoint = checkPointManager.GetCheckPointPosition();
         return checkPoint != null;
     }
 
@@ -31,6 +32,7 @@ public class Respawn : MonoBehaviour
         var PlayerAttack = GetComponent<PlayerAttack>();
         playerMovement.enabled = false;
         PlayerAttack.enabled = false;
+        RespawnEnemies();
         //Asyncronous (non-blocking) makes the caller method non blocking too.
         yield return new WaitForSeconds(2);
         anim.ResetTrigger("die");
@@ -39,5 +41,17 @@ public class Respawn : MonoBehaviour
         playerMovement.enabled = true;
         PlayerAttack.enabled = true;
         health.Heal(3);
+    }
+
+    private List<EnemyHealth> GetEnemies() {
+        IEnumerable<EnemyHealth> enemies = FindObjectsOfType<EnemyHealth>();
+        return new List<EnemyHealth>(enemies);
+    }
+
+    private void RespawnEnemies() {
+        foreach (EnemyHealth enemy in GetEnemies())
+        {
+            enemy.Respawn();
+        }
     }
 }

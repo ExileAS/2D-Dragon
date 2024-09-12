@@ -7,7 +7,12 @@ public class MeleeEnemyHealth : EnemyHealth
         base.TakeDamage(damage);
         if(dead) {
             GetComponent<MeleeEnemy>().enabled = false;
-            GetComponent<CapsuleCollider2D>().enabled = false;
         }
+    }
+
+    public override void Respawn()
+    {
+        base.Respawn();
+        GetComponent<MeleeEnemy>().enabled = true;
     }
 }

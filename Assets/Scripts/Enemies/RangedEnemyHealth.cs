@@ -7,7 +7,12 @@ public class RangedEnemyHealth : EnemyHealth
         base.TakeDamage(damage);
         if(dead) {
             GetComponent<RangedEnemy>().enabled = false;
-            GetComponent<CapsuleCollider2D>().enabled = false;
         }
+    }
+
+    public override void Respawn()
+    {
+        base.Respawn();
+        GetComponent<RangedEnemy>().enabled = true;
     }
 }

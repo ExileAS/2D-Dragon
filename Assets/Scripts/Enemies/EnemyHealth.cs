@@ -5,6 +5,7 @@ public abstract class EnemyHealth : MonoBehaviour
     [SerializeField] private float maxHealth;
     public float currentHealth { get; private set; }
     protected bool dead;
+    private Vector2 initialPosition;
     [SerializeField] private Animator anim;
 
     [Header("SFX")]
@@ -13,7 +14,9 @@ public abstract class EnemyHealth : MonoBehaviour
 
     private void Awake() {
         currentHealth = maxHealth;
+        initialPosition = transform.position;
     }
+
     public virtual void TakeDamage(float damage) { 
         currentHealth = Mathf.Clamp(currentHealth-damage, 0, maxHealth);
 
@@ -30,4 +33,12 @@ public abstract class EnemyHealth : MonoBehaviour
         }
     }
 
+    public virtual void Respawn() {
+        currentHealth = maxHealth;
+        dead = false;
+        anim.ResetTrigger("die");
+        anim.Play("Idle");
+        gameObject.layer = 11;
+        transform.position = initialPosition;
+    }
 }
