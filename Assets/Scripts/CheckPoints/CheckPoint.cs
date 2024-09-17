@@ -6,6 +6,7 @@ public class CheckPoint : MonoBehaviour
     private Animator anim;
     private CheckPointManager manager;
     [SerializeField] private AudioClip activateAudio;
+    [HideInInspector] public bool isActive;
 
     private void Awake() {
         anim = GetComponent<Animator>();

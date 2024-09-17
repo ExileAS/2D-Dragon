@@ -124,7 +124,7 @@ public class PlayerMovement : MonoBehaviour
             wallLayer
         );
 
-        Debug.DrawLine(capsuleCollider.bounds.center, 
+        Debug.DrawLine(capsuleCollider.bounds.center,
         capsuleCollider.bounds.center + 
         new Vector3(transform.localScale.x, 0).normalized * (capsuleCollider.bounds.size.y / 2 + 0.1f));
 
@@ -186,7 +186,7 @@ public class PlayerMovement : MonoBehaviour
     public void LookLeftOrRight(float horizontalInput) {
         if(horizontalInput > 0.01F) {
             transform.localScale = Vector3.one;
-        } 
+        }
         if(horizontalInput < -0.01F) {
             transform.localScale = new Vector3(-1, 1, 1);
         }

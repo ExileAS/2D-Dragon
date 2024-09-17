@@ -18,6 +18,7 @@ public class CheckPointManager : MonoBehaviour
             if(CheckPoint.GetComponent<CheckPoint>().index < index) {
                 CheckPoint.GetComponent<BoxCollider2D>().enabled = false;
                 CheckPoint.GetComponent<Animator>().SetTrigger("activate");
+                CheckPoint.GetComponent<CheckPoint>().isActive = true;
             }
         }
     }
