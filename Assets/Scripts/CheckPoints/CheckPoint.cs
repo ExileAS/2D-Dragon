@@ -8,6 +8,7 @@ public class CheckPoint : MonoBehaviour
     [SerializeField] private AudioClip activateAudio;
     [HideInInspector] public bool isActive;
 
+
     private void Awake() {
         anim = GetComponent<Animator>();
         manager = GetComponentInParent<CheckPointManager>();
@@ -19,5 +20,7 @@ public class CheckPoint : MonoBehaviour
         GetComponent<BoxCollider2D>().enabled = false;
         manager.SetActivePoint(transform);
         manager.DeactivateOldFlags(index);
+        other.GetComponent<Health>().Heal(3);
+        DataManager.Instance.SaveData();
     }
 }

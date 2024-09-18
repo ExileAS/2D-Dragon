@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CheckPointManager : MonoBehaviour
+public class CheckPointManager : MonoBehaviour, IDataPersistence
 {
     private List<Transform> checkPoints = new List<Transform>();
     private Transform activeCheckPoint;
@@ -27,7 +27,14 @@ public class CheckPointManager : MonoBehaviour
         activeCheckPoint = point;
     }
 
-    public Vector3? GetCheckPointPosition() {
+    public Vector2? GetCheckPointPosition() {
         return activeCheckPoint == null ? null : activeCheckPoint.position;
     }
+
+    public void SaveState(ref GameData data) {
+        if(activeCheckPoint == null) return;
+        data.latestCheckPoint = new Vector2(activeCheckPoint.position.x, activeCheckPoint.position.y + 0.8f);
+    }
+
+    public void LoadState(GameData data) {}
 }

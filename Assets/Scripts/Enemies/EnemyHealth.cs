@@ -1,8 +1,9 @@
 using UnityEngine;
 
-public abstract class EnemyHealth : MonoBehaviour
+public abstract class EnemyHealth : MonoBehaviour, IDataPersistence
 {
     [SerializeField] private float maxHealth;
+    [SerializeField] private string id;
     public float currentHealth { get; private set; }
     protected bool dead;
     private Vector2 initialPosition;
@@ -11,6 +12,11 @@ public abstract class EnemyHealth : MonoBehaviour
     [Header("SFX")]
     [SerializeField] private AudioClip hurtAudio;
     [SerializeField] private AudioClip dieAudio;
+
+    [ContextMenu("Generate id")]
+    private void GenerateGuid() {
+        id = System.Guid.NewGuid().ToString();
+    }
 
     private void Awake() {
         currentHealth = maxHealth;
@@ -26,11 +32,16 @@ public abstract class EnemyHealth : MonoBehaviour
         } else {
             if(!dead) {
                 dead = true;
-                anim.SetTrigger("die");
                 SFXManager.Instance.PlaySound(dieAudio);
-                gameObject.layer = 20;
+                KillEnemy();
             }
         }
+    }
+
+    private void KillEnemy() {
+        anim.SetTrigger("die");
+        currentHealth = 0;
+        gameObject.layer = 20;
     }
 
     public virtual void Respawn() {
@@ -40,5 +51,19 @@ public abstract class EnemyHealth : MonoBehaviour
         anim.Play("Idle");
         gameObject.layer = 11;
         transform.position = initialPosition;
+    }
+
+    public void SaveState(ref GameData data) {
+        if(data.enemyState.ContainsKey(id)) {
+            data.enemyState.Remove(id);
+        }
+        data.enemyState.Add(id, dead);
+    }
+
+    public void LoadState(GameData data) {
+        data.enemyState.TryGetValue(id, out dead);
+        if(dead) {
+            KillEnemy();
+        }
     }
 }

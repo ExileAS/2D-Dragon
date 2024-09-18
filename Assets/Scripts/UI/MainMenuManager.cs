@@ -41,7 +41,7 @@ public class MainMenuManager : MonoBehaviour
     }
 
     public void Continue() {
-
+        DataManager.Instance.LoadData(PlayerPrefs.GetInt("continue"));
     }
 
     public void LoadGame() {

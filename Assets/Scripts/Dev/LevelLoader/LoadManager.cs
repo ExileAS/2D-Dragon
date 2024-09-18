@@ -19,7 +19,7 @@ public class LoadManager : MonoBehaviour
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
-        Debug.Log("Loaded Scene " + scene.buildIndex);
+        // Debug.Log("Loaded Scene " + scene.buildIndex);
     }
 
     private void Update() {

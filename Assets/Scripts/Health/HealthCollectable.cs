@@ -3,7 +3,13 @@ using UnityEngine;
 public class HealthCollectable : MonoBehaviour
 {
     [SerializeField] private float healthValue;
-    private bool collected;
+    public string id;
+
+    [ContextMenu("generate ID")]
+    private void GenerateGuid() {
+        id = System.Guid.NewGuid().ToString();
+    }
+    [HideInInspector] public bool collected;
 
     private void OnTriggerEnter2D(Collider2D other) {
         if(other.CompareTag("Player")) {
@@ -12,4 +18,13 @@ public class HealthCollectable : MonoBehaviour
             collected = true;
         }
     }
+
+    // public void LoadState(GameData data) {
+    //     data.heartCollectableState.TryGetValue(id, out collected);
+    //     if(collected) {
+    //         gameObject.SetActive(false);
+    //     }
+    // }
+
+    // public void SaveState(ref GameData data) {}
 }

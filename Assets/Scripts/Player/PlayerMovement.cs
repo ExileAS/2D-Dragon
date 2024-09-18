@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour, IDataPersistence
 {
     private Rigidbody2D body;
     private Animator anim;
@@ -191,4 +191,10 @@ public class PlayerMovement : MonoBehaviour
             transform.localScale = new Vector3(-1, 1, 1);
         }
     }
+
+    public void LoadState(GameData data) {
+        transform.position = data.latestCheckPoint;
+    }
+
+    public void SaveState(ref GameData data) {}
 }
