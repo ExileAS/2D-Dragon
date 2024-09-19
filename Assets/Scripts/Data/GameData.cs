@@ -8,10 +8,12 @@ public class GameData {
     public SerializedDictionary<string, bool> enemyState;
     public SerializedDictionary<string, bool> heartCollectableState;
     public int sceneBuildIndex;
+    public bool isNewGame;
 
-    public GameData(Vector3 initialPlayerPosition)
+    public GameData()
     {
-        latestCheckPoint = initialPlayerPosition;
+        isNewGame = true;
+        latestCheckPoint = Vector3.zero;
         enemyState = new SerializedDictionary<string, bool>();
         heartCollectableState = new SerializedDictionary<string, bool>();
         sceneBuildIndex = 1;

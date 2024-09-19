@@ -37,11 +37,12 @@ public class MainMenuManager : MonoBehaviour
     }
 
     public void NewGame() {
-        SceneManager.LoadScene(1);
+        DataManager.Instance.NewGame();
     }
 
     public void Continue() {
-        DataManager.Instance.LoadData(PlayerPrefs.GetInt("continue"));
+        // SceneManager.LoadScene(1);
+        DataManager.Instance.LoadRequestedSave(PlayerPrefs.GetInt("continue"));
     }
 
     public void LoadGame() {

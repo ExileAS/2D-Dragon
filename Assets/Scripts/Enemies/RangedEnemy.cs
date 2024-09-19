@@ -5,7 +5,7 @@ public class RangedEnemy : EnemyAttack
     [Header("Projectiles")]
     [SerializeField] private GameObject[] fireBalls = new GameObject[10];
     [SerializeField] private Transform firePoint;
-    [SerializeField] private Transform player;
+    private Transform player;
 
     [Header("Hit IFrames")]
     [SerializeField] private float IFrameTime;
@@ -17,6 +17,12 @@ public class RangedEnemy : EnemyAttack
     [SerializeField] private AudioClip swordAttack;
     [SerializeField] private AudioClip fireBallAudio;
     private bool canMeleeAttack;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        player = FindObjectOfType<PlayerMovement>().transform;
+    }
 
     protected override void Update() {
         base.Update();

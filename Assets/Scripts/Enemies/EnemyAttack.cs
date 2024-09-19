@@ -15,11 +15,12 @@ public abstract class EnemyAttack : EnemyPatrol
 
     [Header("Player")]
     [SerializeField] private LayerMask playerLayer;
-    [SerializeField] protected Health playerHealth;
+    protected Health playerHealth;
     protected bool isAttacking;
 
     protected override void Awake() {
         base.Awake();
+        playerHealth = FindObjectOfType<Health>();
     }
 
     protected override void Update() {

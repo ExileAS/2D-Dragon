@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class EnemyHealth : MonoBehaviour, IDataPersistence
+public class EnemyHealth : MonoBehaviour, IDataPersistence
 {
     [SerializeField] private float maxHealth;
     [SerializeField] private string id;
@@ -23,7 +23,7 @@ public abstract class EnemyHealth : MonoBehaviour, IDataPersistence
         initialPosition = transform.position;
     }
 
-    public virtual void TakeDamage(float damage) { 
+    public void TakeDamage(float damage) { 
         currentHealth = Mathf.Clamp(currentHealth-damage, 0, maxHealth);
 
         if(currentHealth > 0) {
@@ -42,15 +42,17 @@ public abstract class EnemyHealth : MonoBehaviour, IDataPersistence
         anim.SetTrigger("die");
         currentHealth = 0;
         gameObject.layer = 20;
+        GetComponent<EnemyPatrol>().enabled = false;
     }
 
-    public virtual void Respawn() {
+    public void Respawn() {
         currentHealth = maxHealth;
         dead = false;
         anim.ResetTrigger("die");
         anim.Play("Idle");
         gameObject.layer = 11;
         transform.position = initialPosition;
+        GetComponent<EnemyPatrol>().enabled = true;
     }
 
     public void SaveState(ref GameData data) {

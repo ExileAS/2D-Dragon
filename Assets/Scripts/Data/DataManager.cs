@@ -8,24 +8,40 @@ public class DataManager : MonoBehaviour
     public static DataManager Instance { get; private set; }
     private GameData gameData;
     private FileDataHandler dataHandler;
-    private Vector3 playerPosition;
     private readonly string fileNameStart = "save";
     private readonly string fileExtension = ".game";
     private readonly bool useEncryption = false;
+    private int fileIndex;
     
     private DataManager(){}
 
     private void Awake() {
-        if(SceneManager.GetActiveScene().buildIndex != 0)
-            playerPosition = FindObjectOfType<PlayerMovement>().transform.position;
         if(Instance == null) {
             Instance = this;
             DontDestroyOnLoad(gameObject);
         } else if(Instance != this) {
             Destroy(gameObject);
         }
-        gameData = new GameData(playerPosition);
+        gameData = new GameData();
         dataHandler = new FileDataHandler(Application.persistentDataPath, fileNameStart, fileExtension);
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    public void NewGame() {
+        gameData = new GameData();
+        SceneManager.LoadScene(1);
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode loadScene) {
+        if(gameData.isNewGame) return;
+        if(scene.buildIndex == 0) {
+            HandleMainMenuScene();
+            return;
+        }
+        foreach (IDataPersistence obj in GetPersistenceObjects())
+        {
+            obj.LoadState(gameData);
+        }
     }
 
     public void SaveData() {
@@ -37,24 +53,28 @@ public class DataManager : MonoBehaviour
         dataHandler.SaveToFile(gameData, useEncryption);
     }
 
-    public void LoadData(int fileIndex) {
+    public void LoadRequestedSave(int _fileIndex) {
+        fileIndex = _fileIndex;
         string fileName = fileNameStart + fileIndex + fileExtension;
         gameData = dataHandler.LoadFromFile(fileName, useEncryption);
         if(gameData == null) { 
-            Debug.LogError("no data found!");
+            gameData = new GameData();
             return;
         }
-        // Debug.Log(gameData.latestCheckPoint);
+        gameData.isNewGame = false;
         SceneManager.LoadScene(gameData.sceneBuildIndex);
-        foreach (IDataPersistence obj in GetPersistenceObjects())
-        {
-            obj.LoadState(gameData);
-            Debug.Log(obj);
-        }
     }
 
     private List<IDataPersistence> GetPersistenceObjects() {
         IEnumerable<IDataPersistence> persistenceObjects = FindObjectsOfType<MonoBehaviour>().OfType<IDataPersistence>();
         return new List<IDataPersistence>(persistenceObjects);
+    }
+
+    private void HandleMainMenuScene() {
+
+    }
+
+    private void OnDestroy() {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 }

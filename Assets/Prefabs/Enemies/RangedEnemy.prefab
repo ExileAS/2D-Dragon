@@ -46,8 +46,8 @@ GameObject:
   - component: {fileID: 6968182523435142657}
   - component: {fileID: 722653161007472597}
   - component: {fileID: 7119507336295307181}
-  - component: {fileID: 3068335912582700721}
   - component: {fileID: 586008858387216258}
+  - component: {fileID: 6831269938156802572}
   m_Layer: 11
   m_Name: RangedEnemy
   m_TagString: EnemyCreature
@@ -246,7 +246,6 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 1024
-  playerHealth: {fileID: 7600248832688105512, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
   fireBalls:
   - {fileID: 0}
   - {fileID: 0}
@@ -259,27 +258,11 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   firePoint: {fileID: 4311804808052617021}
-  player: {fileID: 1677214779990786928, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
+  player: {fileID: 0}
   IFrameTime: 2
   MeleeAttackRange: 2.15
   swordAttack: {fileID: 8300000, guid: 110a74edc730f344b998cdb4d791e692, type: 3}
   fireBallAudio: {fileID: 8300000, guid: 7b4b0f788f646d54685d03a47e97a3a4, type: 3}
---- !u!114 &3068335912582700721
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9125917440332282830}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d87197c9df40eba4b95fce58c94d7a17, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 3
-  anim: {fileID: 4418457291860997149}
-  hurtAudio: {fileID: 8300000, guid: 6dd51d227f86b4e4b845d7ef33ebe16f, type: 3}
-  dieAudio: {fileID: 8300000, guid: 6ddbaae3bb7db8541a4e7c541e8cfde1, type: 3}
 --- !u!68 &586008858387216258
 EdgeCollider2D:
   m_ObjectHideFlags: 0
@@ -323,3 +306,20 @@ EdgeCollider2D:
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0
+--- !u!114 &6831269938156802572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9125917440332282830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dfd3e9a6e012c54995c0d2bb06b3e3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 3
+  id: 67ead4ac-dfd8-4c3a-9e92-6f6549dbfbc0
+  anim: {fileID: 4418457291860997149}
+  hurtAudio: {fileID: 8300000, guid: 6dd51d227f86b4e4b845d7ef33ebe16f, type: 3}
+  dieAudio: {fileID: 8300000, guid: 6ddbaae3bb7db8541a4e7c541e8cfde1, type: 3}
