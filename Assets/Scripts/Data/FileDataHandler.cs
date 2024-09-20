@@ -1,4 +1,6 @@
+using System;
 using System.IO;
+using System.Runtime.Serialization;
 using UnityEngine;
 
 public class FileDataHandler{
@@ -70,11 +72,13 @@ public class FileDataHandler{
                 }
             }
         }
-        catch (System.Exception e)
+        catch (Exception e)
         {
             Debug.Log(e);
         }
         PlayerPrefs.SetInt("continue", fileIndex);
+        PlayerPrefs.SetString(""+fileIndex, DateTime.Now.ToString());
+        PlayerPrefs.Save();
         ScreenCapture.CaptureScreenshot(imgFullPath);
         IncrementFileIndex();
     }

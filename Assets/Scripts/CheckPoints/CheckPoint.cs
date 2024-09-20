@@ -16,7 +16,6 @@ public class CheckPoint : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        Debug.Log(DataManager.Instance.isLoaded);
         anim.SetTrigger("activate");
         SFXManager.Instance.PlaySound(activateAudio);
         GetComponent<BoxCollider2D>().enabled = false;
@@ -25,7 +24,6 @@ public class CheckPoint : MonoBehaviour
         other.GetComponent<Health>().Heal(3);
         if(!DataManager.Instance.isLoaded) {
             StartCoroutine(Save());
-            Debug.Log("SAVED");
         }
         else 
             DataManager.Instance.isLoaded = false;

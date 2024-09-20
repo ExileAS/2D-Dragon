@@ -1,7 +1,8 @@
+using System;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-[System.Serializable]
+[Serializable]
 public class GameData {
     public Vector3 latestCheckPoint;
     public SerializedDictionary<string, bool> enemyState;
