@@ -1,3 +1,4 @@
+using System.Data.Common;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -47,17 +48,25 @@ public class UIManager : MonoBehaviour
             playerAttack.enabled = false;
         }
         else {
-            Time.timeScale = 1;
-            pauseMenu.SetActive(false);
-            playerMovement.enabled = true;
-            playerAttack.enabled = true;
-            SFXManager.Instance.SavePlayerPrefs();
+            Unpause();
         }
         SFXManager.Instance.PlaySound(pauseAudio);
     }
 
+    private void Unpause() {
+        Time.timeScale = 1;
+        pauseMenu.SetActive(false);
+        playerMovement.enabled = true;
+        playerAttack.enabled = true;
+        SFXManager.Instance.SavePlayerPrefs();
+    }
+
+    public void Continue() {
+        Unpause();
+    }
+
     public void Restart() {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        DataManager.Instance.Restart(SceneManager.GetActiveScene().buildIndex);
         SFXManager.Instance.SavePlayerPrefs();
     }
 

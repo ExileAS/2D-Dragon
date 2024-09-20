@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class MainMenuManager : MonoBehaviour
 {
@@ -41,11 +40,10 @@ public class MainMenuManager : MonoBehaviour
     }
 
     public void Continue() {
-        // SceneManager.LoadScene(1);
         DataManager.Instance.LoadRequestedSave(PlayerPrefs.GetInt("continue"));
     }
 
-    public void LoadGame() {
-
+    public void LoadGame(int fileIndex) {
+        DataManager.Instance.LoadRequestedSave(fileIndex);
     }
 }

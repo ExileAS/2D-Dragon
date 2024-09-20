@@ -1,9 +1,10 @@
+using System;
 using UnityEngine;
 
 public class RangedEnemy : EnemyAttack
 {
     [Header("Projectiles")]
-    [SerializeField] private GameObject[] fireBalls = new GameObject[10];
+    private GameObject[] fireBalls = new GameObject[10];
     [SerializeField] private Transform firePoint;
     private Transform player;
 
@@ -22,6 +23,14 @@ public class RangedEnemy : EnemyAttack
     {
         base.Awake();
         player = FindObjectOfType<PlayerMovement>().transform;
+        Transform fireBallHolder = GameObject.FindWithTag("EnemyProjectile").transform;
+        int i = 0;
+        foreach (Transform fireBall in fireBallHolder)
+        {
+            if(i >= fireBalls.Length) return;
+            fireBalls[i] = fireBall.gameObject;
+            i++;
+        }
     }
 
     protected override void Update() {

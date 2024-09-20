@@ -246,19 +246,7 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 1024
-  fireBalls:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   firePoint: {fileID: 4311804808052617021}
-  player: {fileID: 0}
   IFrameTime: 2
   MeleeAttackRange: 2.15
   swordAttack: {fileID: 8300000, guid: 110a74edc730f344b998cdb4d791e692, type: 3}

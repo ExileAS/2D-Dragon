@@ -6,9 +6,12 @@ public class CheckPointManager : MonoBehaviour, IDataPersistence
     private List<Transform> checkPoints = new List<Transform>();
     private Transform activeCheckPoint;
     private void Awake() {
+        int i = 1;
         foreach (Transform child in transform)
         {
             checkPoints.Add(child);
+            child.GetComponent<CheckPoint>().index = i;
+            i++;
         }
     }
 

@@ -10,8 +10,10 @@ public class DataManager : MonoBehaviour
     private FileDataHandler dataHandler;
     private readonly string fileNameStart = "save";
     private readonly string fileExtension = ".game";
+    private readonly string imgFileExtension = ".png";
     private readonly bool useEncryption = false;
     private int fileIndex;
+    [HideInInspector] public bool isLoaded;
     
     private DataManager(){}
 
@@ -22,8 +24,9 @@ public class DataManager : MonoBehaviour
         } else if(Instance != this) {
             Destroy(gameObject);
         }
+        isLoaded = false;
         gameData = new GameData();
-        dataHandler = new FileDataHandler(Application.persistentDataPath, fileNameStart, fileExtension);
+        dataHandler = new FileDataHandler(Application.persistentDataPath, fileNameStart, fileExtension, imgFileExtension);
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
@@ -32,16 +35,19 @@ public class DataManager : MonoBehaviour
         SceneManager.LoadScene(1);
     }
 
+    public void Restart(int sceneIndex) {
+        gameData = new GameData();
+        SceneManager.LoadScene(sceneIndex);
+    }
+
     private void OnSceneLoaded(Scene scene, LoadSceneMode loadScene) {
-        if(gameData.isNewGame) return;
-        if(scene.buildIndex == 0) {
-            HandleMainMenuScene();
-            return;
-        }
+        if(gameData.isNewGame || scene.buildIndex == 0) return;
         foreach (IDataPersistence obj in GetPersistenceObjects())
         {
             obj.LoadState(gameData);
         }
+        Debug.Log("Loaded");
+        isLoaded = true;
     }
 
     public void SaveData() {
@@ -68,10 +74,6 @@ public class DataManager : MonoBehaviour
     private List<IDataPersistence> GetPersistenceObjects() {
         IEnumerable<IDataPersistence> persistenceObjects = FindObjectsOfType<MonoBehaviour>().OfType<IDataPersistence>();
         return new List<IDataPersistence>(persistenceObjects);
-    }
-
-    private void HandleMainMenuScene() {
-
     }
 
     private void OnDestroy() {
