@@ -17,6 +17,7 @@ public class CheckPoint : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other) {
         anim.SetTrigger("activate");
+        isActive = true;
         SFXManager.Instance.PlaySound(activateAudio);
         GetComponent<BoxCollider2D>().enabled = false;
         manager.SetActivePoint(transform);

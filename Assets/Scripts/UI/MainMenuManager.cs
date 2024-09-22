@@ -19,6 +19,7 @@ public class MainMenuManager : MonoBehaviour
         }
     }
 
+    #region Button OnClicks
     public void ShowLoadScreen() {
         if(!loadMenu.activeInHierarchy) {
             mainMenu.SetActive(false);
@@ -40,10 +41,14 @@ public class MainMenuManager : MonoBehaviour
     }
 
     public void Continue() {
-        DataManager.Instance.LoadRequestedSave(PlayerPrefs.GetInt("continue"));
+        int fileIndex = PlayerPrefs.GetInt("continue");
+        PlayerPrefs.Save();
+        DataManager.Instance.LoadRequestedSave(fileIndex);
     }
 
     public void LoadGame(int fileIndex) {
+        PlayerPrefs.Save();
         DataManager.Instance.LoadRequestedSave(fileIndex);
     }
+    #endregion
 }

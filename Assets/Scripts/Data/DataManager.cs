@@ -2,7 +2,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.SceneManagement;
+using System.IO;
+using System.IO.Compression;
 using System;
+using System.Collections;
 
 public class DataManager : MonoBehaviour
 {
@@ -47,7 +50,6 @@ public class DataManager : MonoBehaviour
         {
             obj.LoadState(gameData);
         }
-        Debug.Log("Loaded");
         isLoaded = true;
     }
 
@@ -57,7 +59,30 @@ public class DataManager : MonoBehaviour
             obj.SaveState(ref gameData);
         }
         gameData.sceneBuildIndex = SceneManager.GetActiveScene().buildIndex;
+        StartCoroutine(CompressAndSaveImage(Path.Combine(Application.persistentDataPath, $"Save{FileDataHandler.fileIndex}.dat")));
         dataHandler.SaveToFile(gameData, useEncryption);
+    }
+
+    private IEnumerator CompressAndSaveImage(string imgPath) {
+        yield return new WaitForEndOfFrame();
+        Texture2D texture = ScreenCapture.CaptureScreenshotAsTexture();
+        byte[] bytes = texture.EncodeToPNG();
+        byte[] compressedBytes;
+        try
+        {
+            using(MemoryStream memoryStream = new MemoryStream()) {
+                using(GZipStream gZipStream = new GZipStream(memoryStream, CompressionMode.Compress)) {
+                    gZipStream.Write(bytes, 0, bytes.Length);
+                }
+                compressedBytes = memoryStream.ToArray();
+            }
+            File.WriteAllBytes(imgPath, compressedBytes);
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e);
+        }
+        yield return null;
     }
 
     public void LoadRequestedSave(int _fileIndex) {
@@ -69,6 +94,8 @@ public class DataManager : MonoBehaviour
             return;
         }
         gameData.isNewGame = false;
+        PlayerPrefs.SetInt("continue", _fileIndex);
+        PlayerPrefs.Save();
         SceneManager.LoadScene(gameData.sceneBuildIndex);
     }
 

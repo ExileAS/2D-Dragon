@@ -9,6 +9,7 @@ public class GameData {
     public SerializedDictionary<string, bool> heartCollectableState;
     public int sceneBuildIndex;
     public bool isNewGame;
+    public string timeSpan;
 
     public GameData()
     {
@@ -17,5 +18,6 @@ public class GameData {
         enemyState = new SerializedDictionary<string, bool>();
         heartCollectableState = new SerializedDictionary<string, bool>();
         sceneBuildIndex = 1;
+        timeSpan = "00:00:00";
     }
 }

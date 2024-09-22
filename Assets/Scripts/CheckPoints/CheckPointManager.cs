@@ -5,25 +5,33 @@ public class CheckPointManager : MonoBehaviour, IDataPersistence
 {
     private List<Transform> checkPoints = new List<Transform>();
     private Transform activeCheckPoint;
+    private static int checkPointCount;
+    private static int activeCheckPointCount;
     private void Awake() {
+        checkPointCount = 0;
         int i = 1;
         foreach (Transform child in transform)
         {
             checkPoints.Add(child);
             child.GetComponent<CheckPoint>().index = i;
+            checkPointCount++;
             i++;
         }
     }
 
     public void DeactivateOldFlags(int index) {
+        int pointsActivated = 0;
         foreach (Transform CheckPoint in checkPoints)
         {
-            if(CheckPoint.GetComponent<CheckPoint>().index < index) {
+            CheckPoint point = CheckPoint.GetComponent<CheckPoint>();
+            if(point.index < index && !point.isActive) {
                 CheckPoint.GetComponent<BoxCollider2D>().enabled = false;
                 CheckPoint.GetComponent<Animator>().SetTrigger("activate");
-                CheckPoint.GetComponent<CheckPoint>().isActive = true;
+                point.isActive = true;
             }
+            if(point.isActive) pointsActivated++;
         }
+        activeCheckPointCount = pointsActivated;
     }
 
     public void SetActivePoint(Transform point) {
@@ -40,4 +48,8 @@ public class CheckPointManager : MonoBehaviour, IDataPersistence
     }
 
     public void LoadState(GameData data) {}
+
+    public static int GetActivePercent() {
+        return (int) Mathf.Floor(activeCheckPointCount * 100 / checkPointCount);
+    }
 }

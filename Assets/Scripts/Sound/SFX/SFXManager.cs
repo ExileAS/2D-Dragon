@@ -44,10 +44,12 @@ public class SFXManager : MonoBehaviour
         if(currSoundVolume != soundSource.volume) {
             PlayerPrefs.SetFloat("SoundVolume", soundSource.volume);
             currSoundVolume = soundSource.volume;
+            PlayerPrefs.Save();
         }
         if(currMusicVolume != musicSource.volume) {
             PlayerPrefs.SetFloat("MusicVolume", musicSource.volume);
             currMusicVolume = musicSource.volume;
+            PlayerPrefs.Save();
         }
     }
 }

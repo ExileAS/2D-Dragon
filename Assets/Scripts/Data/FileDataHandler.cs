@@ -1,16 +1,15 @@
 using System;
 using System.IO;
-using System.Runtime.Serialization;
 using UnityEngine;
 
-public class FileDataHandler{
+public class FileDataHandler {
     private string dirPath;
     private string fileNameStart;
     private string fileExtension;
-    private string imgFileExtension;
     private string fullFileName;
-    private string fullImgFileName;
-    private int fileIndex = 1;
+    // private string imgFileExtension;
+    // private string fullImgFileName;
+    public static int fileIndex = 1;
     private readonly string codeWord = "f8fwhfwfqhfanv09f9wvsjnvs";
 
     public FileDataHandler(string dirPath, string fileNameStart, string fileExtension, string imgFileExtension)
@@ -18,9 +17,9 @@ public class FileDataHandler{
         this.dirPath = dirPath;
         this.fileNameStart = fileNameStart;
         this.fileExtension = fileExtension;
-        this.imgFileExtension = imgFileExtension;
         fullFileName = fileNameStart + fileIndex + fileExtension;
-        fullImgFileName = fileNameStart + fileIndex + imgFileExtension;
+        // this.imgFileExtension = imgFileExtension;
+        // fullImgFileName = fileNameStart + fileIndex + imgFileExtension;
     }
 
     public GameData LoadFromFile(string fileName, bool decrypt) {
@@ -42,7 +41,7 @@ public class FileDataHandler{
                 // Debug.Log("Loaded data: " + loadedData);
                 gameData = JsonUtility.FromJson<GameData>(loadedData);
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
                 Debug.LogError(e);
             }
@@ -58,7 +57,7 @@ public class FileDataHandler{
 
     public void SaveToFile(GameData data, bool encrypt) {
         string fullPath = Path.Combine(dirPath, fullFileName);
-        string imgFullPath = Path.Combine(dirPath, fullImgFileName);
+        // string imgFullPath = Path.Combine(dirPath, fullImgFileName);
         try
         {
             Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
@@ -76,17 +75,24 @@ public class FileDataHandler{
         {
             Debug.Log(e);
         }
-        PlayerPrefs.SetInt("continue", fileIndex);
-        PlayerPrefs.SetString(""+fileIndex, DateTime.Now.ToString());
-        PlayerPrefs.Save();
-        ScreenCapture.CaptureScreenshot(imgFullPath);
+        SaveToPlayerPrefs(data.sceneBuildIndex);
         IncrementFileIndex();
+    }
+
+
+
+    private void SaveToPlayerPrefs(int buildIndex) {
+        PlayerPrefs.SetInt("continue", fileIndex);
+        PlayerPrefs.SetString("TIME"+fileIndex, DateTime.Now.ToString());
+        PlayerPrefs.SetInt("PROGRESS"+fileIndex, CheckPointManager.GetActivePercent());
+        PlayerPrefs.SetInt("SCENE"+fileIndex, buildIndex);
+        PlayerPrefs.Save();
     }
 
     private void IncrementFileIndex() {
         fileIndex = (fileIndex + 1) > 10 ? 1 : fileIndex + 1;
         fullFileName = fileNameStart + fileIndex + fileExtension;
-        fullImgFileName = fileNameStart + fileIndex + imgFileExtension;
+        // fullImgFileName = fileNameStart + fileIndex + imgFileExtension;
     }
 
     private string EncryptDecrypt(string originalData) {
