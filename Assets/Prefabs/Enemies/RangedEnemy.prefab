@@ -246,6 +246,9 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 1024
+  doorLayer:
+    serializedVersion: 2
+    m_Bits: 512
   firePoint: {fileID: 4311804808052617021}
   IFrameTime: 2
   MeleeAttackRange: 2.15

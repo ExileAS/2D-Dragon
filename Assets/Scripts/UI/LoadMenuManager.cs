@@ -35,8 +35,9 @@ public class LoadMenuManager : MonoBehaviour
             Texture2D texture = LoadImgTexture(fileNameStart + i + compressExtension);
             if(texture != null) {
                 Image image = option.GetChild(0).GetComponent<Image>();
-                Sprite sprite = Sprite.Create(texture, new Rect(0, 0, 50, 50), new Vector2(0.5f, 0.5f));
+                Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
                 image.color = Color.white;
+                image.rectTransform.sizeDelta = Vector2.one;
                 image.sprite = sprite;
             }
             string timeAgo = GetTimeAgo(i);
@@ -65,7 +66,7 @@ public class LoadMenuManager : MonoBehaviour
                         }
                     }
                 }
-                texture = new Texture2D(50, 50);
+                texture = new Texture2D(2, 2);
                 texture.LoadImage(decompressedBytes);
                 return texture;
             }

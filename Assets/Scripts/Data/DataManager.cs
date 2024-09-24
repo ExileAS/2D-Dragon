@@ -67,7 +67,7 @@ public class DataManager : MonoBehaviour
 
     private IEnumerator CompressAndSaveImage(string imgPath) {
         yield return new WaitForEndOfFrame();
-        Texture2D texture = ScreenCapture.CaptureScreenshotAsTexture();
+        Texture2D texture = ZoomAndCapture();
         byte[] bytes = texture.EncodeToPNG();
         byte[] compressedBytes;
         try
@@ -85,6 +85,16 @@ public class DataManager : MonoBehaviour
             Debug.Log(e);
         }
         yield return null;
+    }
+
+    private Texture2D ZoomAndCapture() {
+        float fov = Camera.main.fieldOfView;
+        Camera.main.orthographic = false;
+        Camera.main.fieldOfView = 10;
+        Texture2D texture = ScreenCapture.CaptureScreenshotAsTexture();
+        Camera.main.fieldOfView = fov;
+        Camera.main.orthographic = true;
+        return texture;
     }
 
     public void LoadRequestedSave(int _fileIndex) {

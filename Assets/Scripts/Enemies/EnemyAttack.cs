@@ -15,6 +15,7 @@ public abstract class EnemyAttack : EnemyPatrol
 
     [Header("Player")]
     [SerializeField] private LayerMask playerLayer;
+    [SerializeField] private LayerMask doorLayer;
     protected Health playerHealth;
     protected bool isAttacking;
 
@@ -35,11 +36,18 @@ public abstract class EnemyAttack : EnemyPatrol
     protected bool PlayerInSight() {
         Vector3 range = Vector3.right * hitBoxRange * Mathf.Sign(transform.localScale.x);
         Vector2 hitBoxSize = new Vector2(hitBoxDimensions * hitBoxScaleX, hitBoxDimensions * hitBoxScaleY);
-        
 
         RaycastHit2D hitBox = Physics2D.BoxCast(new Vector3(transform.position.x, transform.position.y-heightOffset) + range, hitBoxSize, 0,
         Vector2.zero, 0, playerLayer);
 
+        RaycastHit2D hitBoxDoor = Physics2D.BoxCast(new Vector3(transform.position.x, transform.position.y-heightOffset) + range, hitBoxSize, 0,
+        Vector2.zero, 0, doorLayer);
+
+        if(hitBox.collider != null && hitBoxDoor.collider != null) {
+            float playerPositionX = Mathf.Abs(hitBox.collider.transform.position.x);
+            float doorPositionX = Mathf.Abs(hitBoxDoor.collider.transform.position.x);
+            return playerPositionX < doorPositionX;
+        }
         return hitBox.collider != null;
     }
 
