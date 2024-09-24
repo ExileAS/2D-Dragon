@@ -28,6 +28,7 @@ public class MainMenuManager : MonoBehaviour
     }
 
     public void Quit() {
+        DataManager.Instance.SaveSpans();
         SFXManager.Instance.SavePlayerPrefs();
         Application.Quit();
 
@@ -42,12 +43,10 @@ public class MainMenuManager : MonoBehaviour
 
     public void Continue() {
         int fileIndex = PlayerPrefs.GetInt("continue");
-        PlayerPrefs.Save();
         DataManager.Instance.LoadRequestedSave(fileIndex);
     }
 
     public void LoadGame(int fileIndex) {
-        PlayerPrefs.Save();
         DataManager.Instance.LoadRequestedSave(fileIndex);
     }
     #endregion

@@ -3,7 +3,6 @@ using System.IO;
 using System.IO.Compression;
 using TMPro;
 using Unity.VisualScripting;
-using UnityEditor.Timeline.Actions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -11,55 +10,44 @@ using UnityEngine.UI;
 public class LoadMenuManager : MonoBehaviour
 {
     private static DateTime now;
+    private string fileNameStart;
+    private string compressExtension;
+    [HideInInspector] public static string[] timeSpans = null;
+
 
     private void Awake() {
         now = DateTime.Now;
+        fileNameStart = DataManager.Instance.fileNameStart;
+        compressExtension = DataManager.Instance.compressExtension;
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    private void OnSceneLoaded(Scene scene, LoadSceneMode sceneMode) {
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
+        if(timeSpans == null) {
+            timeSpans = DataManager.Instance.LoadSpans() ?? new string[11];
+        }
+
         int i = 1;
         foreach (RectTransform option in transform)
         {
             string stage = GetCurrentSaveStage(i);
-            option.GetChild(1).GetComponent<TextMeshProUGUI>().text = stage ?? ("Save" + i);
-            Texture2D texture = LoadImgTexture("Save" + i + ".dat");
+            option.GetChild(1).GetComponent<TextMeshProUGUI>().text = stage ?? (fileNameStart + i);
+            Texture2D texture = LoadImgTexture(fileNameStart + i + compressExtension);
             if(texture != null) {
                 Image image = option.GetChild(0).GetComponent<Image>();
                 Sprite sprite = Sprite.Create(texture, new Rect(0, 0, 50, 50), new Vector2(0.5f, 0.5f));
-                image.sprite = sprite;
                 image.color = Color.white;
+                image.sprite = sprite;
             }
             string timeAgo = GetTimeAgo(i);
             if(timeAgo != null) option.GetChild(2).GetComponent<TextMeshProUGUI>().text = timeAgo + GetProgressPercent(i);
             TextMeshProUGUI Text = option.GetChild(3).GetComponent<TextMeshProUGUI>();
-            Text.text = PlayerPrefs.GetString("TimeSpan"+i, "00:00:00").Substring(0,8).Prettify();
+            Text.text = (timeSpans[i] != null && timeSpans[i] != "") ? timeSpans[i].Substring(0,8).Prettify() : "";
             i++;
         }
     }
 
-    // private Texture2D LoadImgTexture(string fileName) {
-    //     string fullPath = Path.Combine(Application.persistentDataPath, fileName);
-    //     Texture2D texture = new(50, 50);
-
-    //     if(File.Exists(fullPath)) {
-    //         try
-    //         {
-    //             byte[] bytes = File.ReadAllBytes(fullPath);
-    //             texture.LoadImage(bytes);
-    //             return texture;
-    //         }
-    //         catch (Exception e)
-    //         {
-    //             Debug.Log(e);
-    //             return null;
-    //         }
-    //     } else {
-    //         return null;
-    //     }
-    // }
-
-     private Texture2D LoadImgTexture(string fileName) {
+    private Texture2D LoadImgTexture(string fileName) {
         string fullPath = Path.Combine(Application.persistentDataPath, fileName);
         byte[] compressedBytes;
         byte[] decompressedBytes;
@@ -124,6 +112,7 @@ public class LoadMenuManager : MonoBehaviour
     }
 
     private void OnDestroy() {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
+        SceneManager.sceneLoaded -= OnSceneLoaded; 
     }
 }
+

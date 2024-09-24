@@ -1,7 +1,9 @@
+using System;
 using System.Data.Common;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.SocialPlatforms;
 
 public class UIManager : MonoBehaviour
 {
@@ -71,11 +73,14 @@ public class UIManager : MonoBehaviour
     }
 
     public void MainMenu() {
+        AddNewSpan();
         SFXManager.Instance.SavePlayerPrefs();
         SceneManager.LoadScene(0);
     }
 
     public void Quit() {
+        AddNewSpan();
+        DataManager.Instance.SaveSpans();
         SFXManager.Instance.SavePlayerPrefs();
         Application.Quit();
 
@@ -84,4 +89,11 @@ public class UIManager : MonoBehaviour
         #endif
     }
 
+    private void AddNewSpan() {
+        TimeSpan additionalSpan = DateTime.Now - Timer.additionalTimeStart;
+        TimeSpan currSpan;
+        TimeSpan.TryParse(LoadMenuManager.timeSpans[PlayerPrefs.GetInt("continue")], out currSpan);
+        string newTimeSpan = (currSpan + additionalSpan).ToString();
+        LoadMenuManager.timeSpans[PlayerPrefs.GetInt("continue")] = newTimeSpan;
+    }
 }

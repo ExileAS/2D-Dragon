@@ -1,11 +1,12 @@
 using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Timer : MonoBehaviour, IDataPersistence
 {
     private DateTime startTime;
-    private TimeSpan timeSpan;
+    public static DateTime additionalTimeStart;
     public static Timer Instance { get; private set; }
     private Timer(){}
 
@@ -18,7 +19,7 @@ public class Timer : MonoBehaviour, IDataPersistence
         }
         SceneManager.sceneLoaded += OnSceneLoaded;
         startTime = DateTime.Now;
-        timeSpan = new();
+        additionalTimeStart = DateTime.Now;
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
@@ -26,15 +27,15 @@ public class Timer : MonoBehaviour, IDataPersistence
     }
 
     public void SaveState(ref GameData data) {
-        TimeSpan span = timeSpan + (DateTime.Now - startTime);
+        TimeSpan oldSpan;
+        TimeSpan.TryParse(LoadMenuManager.timeSpans[PlayerPrefs.GetInt("continue")], out oldSpan);
+        TimeSpan span = oldSpan + (DateTime.Now - startTime);
         string spanText = span.ToString();
-        PlayerPrefs.SetString("TimeSpan"+FileDataHandler.fileIndex, spanText);
-        data.timeSpan = spanText;
+        LoadMenuManager.timeSpans[FileDataHandler.fileIndex] = spanText;
+        additionalTimeStart = DateTime.Now;
     }
     
-    public void LoadState(GameData data) {
-        TimeSpan.TryParse(data.timeSpan, out timeSpan);
-    }
+    public void LoadState(GameData data) {}
 
     private void OnDestroy() {
         SceneManager.sceneLoaded -= OnSceneLoaded;

@@ -12,9 +12,10 @@ public class DataManager : MonoBehaviour
     public static DataManager Instance { get; private set; }
     private GameData gameData;
     private FileDataHandler dataHandler;
-    private readonly string fileNameStart = "save";
-    private readonly string fileExtension = ".game";
-    private readonly string imgFileExtension = ".png";
+    public readonly string fileNameStart = "save";
+    public readonly string fileExtension = ".game";
+    public readonly string imgFileExtension = ".png";
+    public readonly string compressExtension = ".gz";
     private readonly bool useEncryption = false;
     private int fileIndex;
     [HideInInspector] public bool isLoaded;
@@ -30,7 +31,7 @@ public class DataManager : MonoBehaviour
         }
         isLoaded = false;
         gameData = new GameData();
-        dataHandler = new FileDataHandler(Application.persistentDataPath, fileNameStart, fileExtension, imgFileExtension);
+        dataHandler = new FileDataHandler(Application.persistentDataPath, fileNameStart, fileExtension);
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
@@ -59,7 +60,8 @@ public class DataManager : MonoBehaviour
             obj.SaveState(ref gameData);
         }
         gameData.sceneBuildIndex = SceneManager.GetActiveScene().buildIndex;
-        StartCoroutine(CompressAndSaveImage(Path.Combine(Application.persistentDataPath, $"Save{FileDataHandler.fileIndex}.dat")));
+        string imgPath = Path.Combine(Application.persistentDataPath, $"{fileNameStart}{FileDataHandler.fileIndex}{compressExtension}");
+        StartCoroutine(CompressAndSaveImage(imgPath));
         dataHandler.SaveToFile(gameData, useEncryption);
     }
 
@@ -88,15 +90,56 @@ public class DataManager : MonoBehaviour
     public void LoadRequestedSave(int _fileIndex) {
         fileIndex = _fileIndex;
         string fileName = fileNameStart + fileIndex + fileExtension;
-        gameData = dataHandler.LoadFromFile(fileName, useEncryption);
-        if(gameData == null) { 
-            gameData = new GameData();
-            return;
-        }
+        GameData data = dataHandler.LoadFromFile(fileName, useEncryption);
+        if(data == null) return;
+        
+        gameData = data;
         gameData.isNewGame = false;
         PlayerPrefs.SetInt("continue", _fileIndex);
         PlayerPrefs.Save();
         SceneManager.LoadScene(gameData.sceneBuildIndex);
+    }
+
+    public void SaveSpans() {
+        string fullPath = Path.Combine(Application.persistentDataPath, "spans.game");
+
+        try
+        {
+            string spans = JsonUtility.ToJson(new SerializableSpans{spanArray = LoadMenuManager.timeSpans});
+            using(FileStream stream = new FileStream(fullPath, FileMode.Create)) {
+                using(StreamWriter writer = new StreamWriter(stream)) {
+                    writer.Write(spans);
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e);
+        }
+    }
+
+    public string[] LoadSpans() {
+        string fullPath = Path.Combine(Application.persistentDataPath, "spans.game");
+        string[] loadedSpans = null;
+
+        if(File.Exists(fullPath)) {
+            try
+            {
+                string loadedData;
+                using(FileStream stream = new FileStream(fullPath, FileMode.Open)) {
+                    using(StreamReader reader = new StreamReader(stream)) {
+                        loadedData = reader.ReadToEnd();
+                    }
+                }
+                SerializableSpans spans = JsonUtility.FromJson<SerializableSpans>(loadedData);
+                loadedSpans = spans.spanArray;
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e);
+            }
+        }
+        return loadedSpans;
     }
 
     private List<IDataPersistence> GetPersistenceObjects() {

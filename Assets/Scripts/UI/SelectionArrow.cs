@@ -7,12 +7,19 @@ public class SelectionArrow : MonoBehaviour
     [SerializeField] private RectTransform[] options;
     [SerializeField] private AudioClip selectionAudio;
     [SerializeField] private AudioClip confirmAudio;
+    private Vector3 initialPosition;
     private int currSelection;
     private float initialX;
 
     private void Awake() {
         initialX = transform.position.x;
         transform.position = new Vector2(initialX - (options[0].rect.width / 2 + 100), options[0].transform.position.y);
+        initialPosition = transform.position;
+        currSelection = 0;
+    }
+
+    private void OnDisable() {
+        transform.position = initialPosition;
         currSelection = 0;
     }
 

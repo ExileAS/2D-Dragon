@@ -7,19 +7,17 @@ public class FileDataHandler {
     private string fileNameStart;
     private string fileExtension;
     private string fullFileName;
-    // private string imgFileExtension;
-    // private string fullImgFileName;
-    public static int fileIndex = 1;
+    public static int fileIndex;
     private readonly string codeWord = "f8fwhfwfqhfanv09f9wvsjnvs";
 
-    public FileDataHandler(string dirPath, string fileNameStart, string fileExtension, string imgFileExtension)
+    public FileDataHandler(string dirPath, string fileNameStart, string fileExtension)
     {
         this.dirPath = dirPath;
         this.fileNameStart = fileNameStart;
         this.fileExtension = fileExtension;
         fullFileName = fileNameStart + fileIndex + fileExtension;
-        // this.imgFileExtension = imgFileExtension;
-        // fullImgFileName = fileNameStart + fileIndex + imgFileExtension;
+        fileIndex = PlayerPrefs.GetInt("continue", 0);
+        IncrementFileIndex();
     }
 
     public GameData LoadFromFile(string fileName, bool decrypt) {
@@ -57,7 +55,6 @@ public class FileDataHandler {
 
     public void SaveToFile(GameData data, bool encrypt) {
         string fullPath = Path.Combine(dirPath, fullFileName);
-        // string imgFullPath = Path.Combine(dirPath, fullImgFileName);
         try
         {
             Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
@@ -79,8 +76,6 @@ public class FileDataHandler {
         IncrementFileIndex();
     }
 
-
-
     private void SaveToPlayerPrefs(int buildIndex) {
         PlayerPrefs.SetInt("continue", fileIndex);
         PlayerPrefs.SetString("TIME"+fileIndex, DateTime.Now.ToString());
@@ -92,7 +87,6 @@ public class FileDataHandler {
     private void IncrementFileIndex() {
         fileIndex = (fileIndex + 1) > 10 ? 1 : fileIndex + 1;
         fullFileName = fileNameStart + fileIndex + fileExtension;
-        // fullImgFileName = fileNameStart + fileIndex + imgFileExtension;
     }
 
     private string EncryptDecrypt(string originalData) {
