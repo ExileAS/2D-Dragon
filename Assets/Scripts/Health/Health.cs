@@ -22,6 +22,7 @@ public class Health : MonoBehaviour
     [SerializeField] private AudioClip hurtAudio;
     [SerializeField] private AudioClip dieAudio;
     [SerializeField] private AudioClip healAudio;
+    [SerializeField] private AudioClip heartbeat;
 
     [Header("Game Over")]
     [SerializeField] private UIManager uiManager;
@@ -29,6 +30,7 @@ public class Health : MonoBehaviour
     private float pushBackDirection;
     private float pushBack;
     private PlayerMovement playerMovement;
+    private bool isPlayingHeartbeat;
 
     private void Awake() {
         currentHealth = maxHealth;
@@ -44,6 +46,15 @@ public class Health : MonoBehaviour
         if(gotHit) {
             playerMovement.enabled = false;
             HitPushBack();
+        }
+        if(currentHealth < 2 && !isPlayingHeartbeat && !dead) {
+            SFXManager.Instance.PlayRepeatedly(heartbeat);
+            isPlayingHeartbeat = true;
+        }
+        if(currentHealth >= 2 && isPlayingHeartbeat) {
+            SFXManager.Instance.StopSound();
+            isPlayingHeartbeat = false;
+            Debug.Log("stopped");
         }
     }
 

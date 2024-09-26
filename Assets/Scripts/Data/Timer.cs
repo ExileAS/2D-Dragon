@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -23,7 +22,7 @@ public class Timer : MonoBehaviour, IDataPersistence
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
-        if(scene.buildIndex == 0) Destroy(Instance.gameObject);
+        if(scene.buildIndex == 0) Destroy(gameObject);
     }
 
     public void SaveState(ref GameData data) {

@@ -248,6 +248,7 @@ MonoBehaviour:
   hurtAudio: {fileID: 8300000, guid: 27100521e0eb5bb40a0290d2818f3ff0, type: 3}
   dieAudio: {fileID: 8300000, guid: a6a2da644e055d348817648dce0683c8, type: 3}
   healAudio: {fileID: 8300000, guid: 5295be6654d169f40a4bf9d22d8e6172, type: 3}
+  heartbeat: {fileID: 8300000, guid: c0bc5b2ae3a8c9942a1e9b441d4d3e98, type: 3}
   uiManager: {fileID: 0}
 --- !u!114 &5581028440120845651
 MonoBehaviour:

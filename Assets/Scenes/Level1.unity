@@ -5117,7 +5117,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &940261546
 Transform:
   m_ObjectHideFlags: 0
@@ -8652,6 +8652,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 7600248832688105512, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
+      propertyPath: heartbeat
+      value: 
+      objectReference: {fileID: 8300000, guid: 4a77f052c5ffd7f4c9621f5c94717a62, type: 3}
     - target: {fileID: 7600248832688105512, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
       propertyPath: uiManager
       value: 

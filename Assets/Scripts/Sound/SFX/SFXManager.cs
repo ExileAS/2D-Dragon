@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class SFXManager : MonoBehaviour
@@ -29,6 +30,22 @@ public class SFXManager : MonoBehaviour
 
     public void PlaySound(AudioClip audio) {
         soundSource.PlayOneShot(audio);
+    }
+
+    public void PlayRepeatedly(AudioClip audio) {
+        soundSource.clip = audio;
+        soundSource.loop = true;
+        soundSource.Play();
+    }
+
+    public void StopSound() {
+        StartCoroutine(Stop());
+    }
+
+    private IEnumerator Stop() {
+        yield return new WaitForSeconds(0.2f);
+        soundSource.Stop();
+        soundSource.loop = false;
     }
 
     public float AdjustVolume(string name, int amount) {
