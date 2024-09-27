@@ -6,6 +6,7 @@ using System.IO;
 using System.IO.Compression;
 using System;
 using System.Collections;
+using System.Xml.Serialization;
 
 public class DataManager : MonoBehaviour
 {
@@ -16,7 +17,7 @@ public class DataManager : MonoBehaviour
     public readonly string fileExtension = ".game";
     public readonly string imgFileExtension = ".png";
     public readonly string compressExtension = ".gz";
-    private readonly bool useEncryption = false;
+    private readonly bool useEncryption = true;
     private int fileIndex;
     [HideInInspector] public bool isLoaded;
     
@@ -122,11 +123,11 @@ public class DataManager : MonoBehaviour
 
         try
         {
-            string spans = JsonUtility.ToJson(new SerializableSpans{spanArray = LoadMenuManager.timeSpans});
-            using(FileStream stream = new FileStream(fullPath, FileMode.Create)) {
-                using(StreamWriter writer = new StreamWriter(stream)) {
-                    writer.Write(spans);
-                }
+            SerializableSpans serializableSpans = new SerializableSpans{spanArray = LoadMenuManager.timeSpans};
+            XmlSerializer serializer = new XmlSerializer(typeof(SerializableSpans));
+            using (FileStream stream = new FileStream(fullPath, FileMode.Create))
+            {
+                serializer.Serialize(stream, serializableSpans);
             }
         }
         catch (Exception e)
@@ -142,14 +143,12 @@ public class DataManager : MonoBehaviour
         if(File.Exists(fullPath)) {
             try
             {
-                string loadedData;
-                using(FileStream stream = new FileStream(fullPath, FileMode.Open)) {
-                    using(StreamReader reader = new StreamReader(stream)) {
-                        loadedData = reader.ReadToEnd();
-                    }
+                XmlSerializer serializer = new XmlSerializer(typeof(SerializableSpans));
+                using (FileStream stream = new FileStream(fullPath, FileMode.Open))
+                {
+                    SerializableSpans spans = serializer.Deserialize(stream) as SerializableSpans;
+                    loadedSpans = spans.spanArray;
                 }
-                SerializableSpans spans = JsonUtility.FromJson<SerializableSpans>(loadedData);
-                loadedSpans = spans.spanArray;
             }
             catch (Exception e)
             {

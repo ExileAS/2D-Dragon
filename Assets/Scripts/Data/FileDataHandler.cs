@@ -8,7 +8,7 @@ public class FileDataHandler {
     private string fileExtension;
     private string fullFileName;
     public static int fileIndex;
-    private readonly string codeWord = "f8fwhfwfqhfanv09f9wvsjnvs";
+    private static readonly string codeWord = "Ajrpv3hPPoZqpgf7o8E6sSwAV68DfI5eewzRzZt9gDQ=";
 
     public FileDataHandler(string dirPath, string fileNameStart, string fileExtension)
     {
@@ -34,9 +34,9 @@ public class FileDataHandler {
                     }
                 }
                 if(decrypt) {
+                    loadedData = AESUtil.Decrypt(loadedData);
                     loadedData = EncryptDecrypt(loadedData);
                 }
-                // Debug.Log("Loaded data: " + loadedData);
                 gameData = JsonUtility.FromJson<GameData>(loadedData);
             }
             catch (Exception e)
@@ -61,6 +61,7 @@ public class FileDataHandler {
             string dataToSave = JsonUtility.ToJson(data, true);
             if(encrypt) {
                 dataToSave = EncryptDecrypt(dataToSave);
+                dataToSave = AESUtil.Encrypt(dataToSave);
             }
             using(FileStream stream = new FileStream(fullPath, FileMode.Create)) {
                 using(StreamWriter writer = new StreamWriter(stream)) {
