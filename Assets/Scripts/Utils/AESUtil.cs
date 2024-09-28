@@ -66,10 +66,10 @@ public static class AESUtil
     }
 
     private static string GenKey() {
-        string key1 = "YMEgMAgFUzerPs4pA=";
+        string key1 = "YMEgMAgFUzerPs4pA";
         string key2 = "10E7ZMhH";
         string key3 = "Lk7W9Cni+vqz";
         string key4 = "14EPPT";
-        return key4 + key2 + key3 + key1;
+        return key4 + key2 + key3 + key1 + "=";
     }
 }

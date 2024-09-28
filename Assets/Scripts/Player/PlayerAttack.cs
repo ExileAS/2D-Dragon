@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
@@ -19,19 +20,25 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private AudioClip fireBallAudio;
     private bool hasQueuedAttack;
     private float lastAttackTime;
+    private Rigidbody2D body;
+    private float currentVelocity;
 
     
     private void Awake() {
         playerMovement = GetComponent<PlayerMovement>();
         anim = GetComponent<Animator>();
+        body = GetComponent<Rigidbody2D>();
     }
 
     private void Update() {
         bool pressedAttack = Input.GetMouseButtonDown(0);
 
         if(CDTimer > attackCD) {
-            if(playerMovement.CanAttack() && (pressedAttack || (hasQueuedAttack && (CDTimer - lastAttackTime) < bufferDuration)))
+            if(pressedAttack || (hasQueuedAttack && (CDTimer - lastAttackTime) < bufferDuration)) {
+                currentVelocity = body.velocity.x;
+                StartCoroutine(StopToAttack());
                 Attack();
+            }
         } else {
             CDTimer += Time.deltaTime;
             if(pressedAttack) {
@@ -49,10 +56,18 @@ public class PlayerAttack : MonoBehaviour
         GameObject nextFireBall = fireBalls[nextInd];
 
         CDTimer = 0;
-        anim.SetTrigger("attack");
         SFXManager.Instance.PlaySound(fireBallAudio);
 
         nextFireBall.transform.position = firePoint.position;
-        nextFireBall.GetComponent<Projectile>().SetDirection(Mathf.Sign(transform.localScale.x));
+        nextFireBall.GetComponent<Projectile>().SetDirection(Mathf.Sign(transform.localScale.x), Mathf.Abs(currentVelocity));
+    }
+
+    private IEnumerator StopToAttack() {
+        anim.SetBool("is running", false);
+        body.velocity = new Vector2(0, body.velocity.y);
+        playerMovement.enabled = false;
+        anim.SetTrigger("attack");
+        yield return new WaitForSeconds(anim.GetCurrentAnimatorClipInfo(0).Length * 0.3f);
+        playerMovement.enabled = true;
     }
 }

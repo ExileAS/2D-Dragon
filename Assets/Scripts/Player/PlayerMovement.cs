@@ -171,9 +171,9 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         anim.SetBool("is grounded", IsGrounded());
     }
 
-    public bool CanAttack() {
-        return IsGrounded() && !isRunning;
-    }
+    // public bool CanAttack() {
+    //     return IsGrounded() && !isRunning;
+    // }
 
     private bool CanDoubleJump() {
         return jumpCount < maxJumpCount;

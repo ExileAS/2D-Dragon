@@ -226,7 +226,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   firePoint: {fileID: 4141108181192288882}
-  bufferDuration: 0.2
+  bufferDuration: 0.25
   fireBallAudio: {fileID: 8300000, guid: 7b4b0f788f646d54685d03a47e97a3a4, type: 3}
 --- !u!114 &7600248832688105512
 MonoBehaviour:

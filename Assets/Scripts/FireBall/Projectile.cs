@@ -3,6 +3,7 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     [SerializeField] private float speed;
+    private float speedModifier;
     [SerializeField] private float damage;
     private BoxCollider2D boxCollider;
     private Animator anim;
@@ -22,7 +23,7 @@ public class Projectile : MonoBehaviour
     private void Update() {
         if(hit) return;
 
-        transform.Translate(speed * Time.deltaTime * direction, 0, 0);
+        transform.Translate((speed + speedModifier) * Time.deltaTime * direction, 0, 0);
 
         lifeTime += Time.deltaTime;
 
@@ -50,7 +51,8 @@ public class Projectile : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public void SetDirection(float _direction) {
+    public void SetDirection(float _direction, float _speedModifier = 0) {
+        speedModifier = 0.2f * _speedModifier;
         hit = false;
         lifeTime = 0;
         direction = _direction;
