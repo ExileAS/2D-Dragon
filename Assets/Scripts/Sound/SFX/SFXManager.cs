@@ -8,6 +8,8 @@ public class SFXManager : MonoBehaviour
     public float currSoundVolume { get; private set; }
     public float currMusicVolume { get; private set; }
     public static SFXManager Instance { get; private set; }
+    private bool keepRepeating;
+    private Coroutine soundRepeater;
 
     private SFXManager() {}
 
@@ -33,20 +35,30 @@ public class SFXManager : MonoBehaviour
     }
 
     public void PlayRepeatedly(AudioClip audio) {
-        soundSource.clip = audio;
-        soundSource.loop = true;
-        soundSource.Play();
+        keepRepeating = true;
+        soundRepeater = StartCoroutine(RepeatClip(audio));
+    }
+
+    private IEnumerator RepeatClip(AudioClip audio) {
+        while(keepRepeating) {
+            soundSource.PlayOneShot(audio);
+            yield return new WaitForSeconds(audio.length);
+        }
     }
 
     public void StopSound() {
-        StartCoroutine(Stop());
+        keepRepeating = false;
+        if(soundRepeater != null) {
+            StopCoroutine(soundRepeater);
+            soundRepeater = null;
+        }
     }
 
-    private IEnumerator Stop() {
-        yield return new WaitForSeconds(0.2f);
-        soundSource.Stop();
-        soundSource.loop = false;
-    }
+    // private IEnumerator Stop() {
+    //     yield return new WaitForSeconds(0.2f);
+    //     soundSource.Stop();
+    //     soundSource.loop = false;
+    // }
 
     public float AdjustVolume(string name, int amount) {
         AudioSource source = name == "MusicVolume" ? musicSource : soundSource;

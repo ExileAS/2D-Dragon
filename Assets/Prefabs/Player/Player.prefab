@@ -33,7 +33,7 @@ Transform:
   m_GameObject: {fileID: 5931562396045012685}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.85, y: -1.05, z: 0}
+  m_LocalPosition: {x: -6.16, y: 0.07, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -248,7 +248,7 @@ MonoBehaviour:
   hurtAudio: {fileID: 8300000, guid: 27100521e0eb5bb40a0290d2818f3ff0, type: 3}
   dieAudio: {fileID: 8300000, guid: a6a2da644e055d348817648dce0683c8, type: 3}
   healAudio: {fileID: 8300000, guid: 5295be6654d169f40a4bf9d22d8e6172, type: 3}
-  heartbeat: {fileID: 8300000, guid: c0bc5b2ae3a8c9942a1e9b441d4d3e98, type: 3}
+  heartbeat: {fileID: 8300000, guid: 771c77defadb4e74ca6bd6a97c540a83, type: 3}
   uiManager: {fileID: 0}
 --- !u!114 &5581028440120845651
 MonoBehaviour:
