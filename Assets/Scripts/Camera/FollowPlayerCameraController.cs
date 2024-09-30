@@ -33,7 +33,8 @@ public class FollowPlayerCameraController : MonoBehaviour
         if(!lookingUp && !lookingDown) { // also makes camera keep tracking player Y
             transform.position = Vector3.SmoothDamp(transform.position,
                 new Vector3(transform.position.x, player.position.y + heightOffset, transform.position.z), ref velocity, smoothTime);
-        } else {
+        } else if(lookingUp && lookingDown) {}
+         else {
             lookDirection = lookingUp ? 1 : -1;
             transform.position = Vector3.SmoothDamp(transform.position,
                 new Vector3(transform.position.x, player.position.y + heightOffset + (lookDirection * lookVerticalMaxDistance), transform.position.z), ref velocity, smoothTime);

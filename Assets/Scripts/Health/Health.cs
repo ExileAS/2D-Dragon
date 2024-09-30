@@ -54,7 +54,6 @@ public class Health : MonoBehaviour
         if(currentHealth >= 2 && isPlayingHeartbeat) {
             SFXManager.Instance.StopSound();
             isPlayingHeartbeat = false;
-            Debug.Log("stopped");
         }
     }
 
