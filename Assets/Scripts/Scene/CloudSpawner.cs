@@ -8,7 +8,8 @@ public class CloudSpawner : MonoBehaviour
     [SerializeField] private GameObject[] clouds;
     [SerializeField] private float spawnRate;
     [SerializeField] private int maxToSpawn;
-    [SerializeField] private int heightOffsetBounds;
+    [SerializeField] private int heigherOffset;
+    [SerializeField] private int lowerOffset;
     [SerializeField] private int xOffsetBounds;
     [HideInInspector] public static Cloud[] inactiveClouds = new Cloud[10];
     [HideInInspector] public static int currIndex;
@@ -42,7 +43,7 @@ public class CloudSpawner : MonoBehaviour
                 } 
                 for(int i = 0; i < numToSpawn; i++)
                 {
-                    int heightOffset = Random.Range(-heightOffsetBounds, heightOffsetBounds);
+                    int heightOffset = Random.Range(-lowerOffset, heigherOffset);
                     int xOffset = Random.Range(-xOffsetBounds, xOffsetBounds);
                     int cloudIndex = Random.Range(0, clouds.Count);
                     ReactivateCloud(cloudIndex, heightOffset, xOffset, clouds);
@@ -50,7 +51,7 @@ public class CloudSpawner : MonoBehaviour
             } else {
                 for(int i = 0; i < numToSpawn; i++)
                 {
-                    int heightOffset = Random.Range(-heightOffsetBounds, heightOffsetBounds);
+                    int heightOffset = Random.Range(-lowerOffset, heigherOffset);
                     int xOffset = Random.Range(-xOffsetBounds, xOffsetBounds);
                     int cloudIndex = Random.Range(0, clouds.Length);
                     SpawnCloud(cloudIndex, heightOffset, xOffset);
@@ -68,7 +69,6 @@ public class CloudSpawner : MonoBehaviour
 
     private void ReactivateCloud(int index, int heightOffset, int xOffset, List<Cloud> clouds) {
         Cloud cloud = clouds[index];
-        cloud.gameObject.SetActive(true);
         cloud.transform.position = new Vector3(transform.position.x + xOffset, 
         transform.position.y + heightOffset, transform.position.z);
     }

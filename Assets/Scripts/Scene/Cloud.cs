@@ -7,15 +7,14 @@ public class Cloud : MonoBehaviour
     [HideInInspector] public float timer;
     void Update()
     {
-        transform.Translate(speed * Time.deltaTime, 0, 0);
         if(timer > lifeTime) {
             if(CloudSpawner.inactiveClouds[CloudSpawner.currIndex] == null) {
                 CloudSpawner.inactiveClouds[CloudSpawner.currIndex] = this;
                 CloudSpawner.currIndex++;
                 timer = 0;
-                gameObject.SetActive(false);
             }
         } else {
+            transform.Translate(speed * Time.deltaTime, 0, 0);
             timer += Time.deltaTime;
         }
     }
