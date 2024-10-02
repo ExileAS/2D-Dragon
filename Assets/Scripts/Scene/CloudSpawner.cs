@@ -29,6 +29,7 @@ public class CloudSpawner : MonoBehaviour
         } else {
             numToSpawn = Random.Range(1, maxToSpawn+1);
             timer = 0;
+            currIndex = 0;
             if(inactiveClouds.Any(c => c != null)) 
             {
                 List<Cloud> clouds = new();
@@ -57,7 +58,6 @@ public class CloudSpawner : MonoBehaviour
                     SpawnCloud(cloudIndex, heightOffset, xOffset);
                 }
             }
-            currIndex = 0;
         }
     }
 
