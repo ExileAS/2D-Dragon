@@ -40,6 +40,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         body = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         capsuleCollider = GetComponent<CapsuleCollider2D>();
+        transform.position = new Vector3(-6, 0, 0);
     }
 
     private void Update() {

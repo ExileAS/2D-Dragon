@@ -11,6 +11,7 @@ TagManager:
   - EnemyCreature
   - Volume
   - EnemyProjectile
+  - upEdge
   layers:
   - Default
   - TransparentFX

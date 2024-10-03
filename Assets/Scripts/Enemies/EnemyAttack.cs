@@ -44,9 +44,9 @@ public abstract class EnemyAttack : EnemyPatrol
         Vector2.zero, 0, doorLayer);
 
         if(hitBox.collider != null && hitBoxDoor.collider != null) {
-            float playerPositionX = Mathf.Abs(hitBox.collider.transform.position.x);
-            float doorPositionX = Mathf.Abs(hitBoxDoor.collider.transform.position.x);
-            return playerPositionX < doorPositionX;
+            float playerPositionX = hitBox.collider.transform.position.x;
+            float doorPositionX = hitBoxDoor.collider.transform.position.x;
+            return Mathf.Abs(playerPositionX - transform.position.x) < Mathf.Abs(doorPositionX - transform.position.x);
         }
         return hitBox.collider != null;
     }

@@ -1,9 +1,7 @@
 using System;
-using System.Data.Common;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.SocialPlatforms;
 
 public class UIManager : MonoBehaviour
 {
@@ -40,6 +38,7 @@ public class UIManager : MonoBehaviour
     public void GameOverScreen() {
         gameOverScreen.SetActive(true);
         SFXManager.Instance.PlaySound(gameOverAudio);
+        Time.timeScale = 0;
     }
 
     private void Pause() {

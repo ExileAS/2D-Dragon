@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class SawWithCorners : MonoBehaviour
 {
-    [SerializeField] private float damage;
     [SerializeField] private float speed;
     [SerializeField] private float maxDistance;
     [SerializeField] private float maxDistanceVertical;
@@ -32,6 +31,11 @@ public class SawWithCorners : MonoBehaviour
         if(other.CompareTag("edge")) {
             verticalMove = !verticalMove;
             goUp = false;
+        }
+        if(other.CompareTag("upEdge")) {
+            if(verticalMove) {
+                verticalMove = false;
+            }
         }
     }
 

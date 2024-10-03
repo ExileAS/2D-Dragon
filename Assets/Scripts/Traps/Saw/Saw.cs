@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class Saw : MonoBehaviour
 {
-    [SerializeField] private float damage;
     [SerializeField] private float speed;
     [SerializeField] private float maxDistance;
     private float leftEdge;

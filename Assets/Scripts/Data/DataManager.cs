@@ -62,7 +62,7 @@ public class DataManager : MonoBehaviour
         }
         gameData.sceneBuildIndex = SceneManager.GetActiveScene().buildIndex;
         string imgPath = Path.Combine(Application.persistentDataPath, $"{fileNameStart}{FileDataHandler.fileIndex}{compressExtension}");
-        StartCoroutine(CompressAndSaveImage(imgPath));
+        // StartCoroutine(CompressAndSaveImage(imgPath));
         dataHandler.SaveToFile(gameData, useEncryption);
     }
 
@@ -99,7 +99,7 @@ public class DataManager : MonoBehaviour
         screenShot.ReadPixels(new Rect(0, 0, Screen.width/2, Screen.height/2), 0, 0);
         screenShot.Apply();
 
-        Camera.main.targetTexture = null;
+        FindObjectOfType<Camera>().targetTexture = null;
         RenderTexture.active = null;
         Destroy(renderTexture);
         return screenShot;
