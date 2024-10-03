@@ -20,14 +20,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cloud Variant
       objectReference: {fileID: 0}
-    - target: {fileID: 8674669552476709533, guid: b16c3135ea38e09458cde32999f34634, type: 3}
-      propertyPath: speed
-      value: 2.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8674669552476709533, guid: b16c3135ea38e09458cde32999f34634, type: 3}
-      propertyPath: lifeTime
-      value: 60
-      objectReference: {fileID: 0}
     - target: {fileID: 8751053911375862946, guid: b16c3135ea38e09458cde32999f34634, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
