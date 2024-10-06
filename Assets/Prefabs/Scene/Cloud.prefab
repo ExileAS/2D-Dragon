@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8751053911375862946}
   - component: {fileID: 738306394549954985}
   - component: {fileID: 8674669552476709533}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: Cloud
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71,11 +71,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -236629951
+  m_SortingLayer: 1
+  m_SortingOrder: -9
   m_Sprite: {fileID: 21300000, guid: af76ac3b5ff029a4099fb8b619b065d3, type: 3}
-  m_Color: {r: 0.36236396, g: 0.26192597, b: 0.509434, a: 0.2627451}
+  m_Color: {r: 0.36236396, g: 0.26192597, b: 0.509434, a: 0.43529412}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -97,6 +97,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4242d3289876aa945a3c12ef1dde4ded, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
-  lifeTime: 48
+  speed: 2.5
+  lifeTime: 50
   fadeDuration: 5

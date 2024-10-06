@@ -5,13 +5,15 @@ TagManager:
   serializedVersion: 2
   tags:
   - ground
-  - edge
   - enemy
   - Arrow
   - EnemyCreature
   - Volume
   - EnemyProjectile
-  - upEdge
+  - LeftEdge
+  - RightEdge
+  - BottomEdge
+  - edge
   layers:
   - Default
   - TransparentFX
@@ -44,7 +46,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - cloud
   m_SortingLayers:
   - name: Default
     uniqueID: 0

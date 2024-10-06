@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 5546072199557844387}
   - component: {fileID: 8697246245808330591}
   - component: {fileID: 2151827867306852230}
-  - component: {fileID: 1034562582184657940}
   - component: {fileID: 4246274994008526104}
   m_Layer: 11
   m_Name: Saw
@@ -144,21 +143,6 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 0.38, y: 0.38}
   m_Direction: 0
---- !u!114 &1034562582184657940
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3387919156463379943}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7896d9f166e72c448ea9eeb4adf0909, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 1
-  speed: 7
-  maxDistance: 5
 --- !u!114 &4246274994008526104
 MonoBehaviour:
   m_ObjectHideFlags: 0

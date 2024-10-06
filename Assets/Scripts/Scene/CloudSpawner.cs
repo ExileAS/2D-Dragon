@@ -17,8 +17,8 @@ public class CloudSpawner : MonoBehaviour
     private List<Cloud> cloudsToReactivate = new();
 
     private void Start() {
-        SpawnCloud(0, 3, 50);
-        SpawnCloud(2, -3, 40);
+        SpawnCloud(0, 3, 50, 2);
+        SpawnCloud(2, -3, 40, -2);
         StartCoroutine(Spawner());
     }
 
@@ -44,7 +44,7 @@ public class CloudSpawner : MonoBehaviour
                     heightOffset = Random.Range(-lowerOffset, heigherOffset);
                     xOffset = Random.Range(-xOffsetBounds, xOffsetBounds);
                     cloudIndex = Random.Range(0, cloudsToReactivate.Count);
-                    ReactivateCloud(cloudIndex, heightOffset, xOffset);
+                    ReactivateCloud(cloudIndex, heightOffset, xOffset, i);
                 }
                 cloudsToReactivate.Clear();
             } else {
@@ -53,27 +53,22 @@ public class CloudSpawner : MonoBehaviour
                     heightOffset = Random.Range(-lowerOffset, heigherOffset);
                     xOffset = Random.Range(-xOffsetBounds, xOffsetBounds);
                     cloudIndex = Random.Range(0, clouds.Length);
-                    SpawnCloud(cloudIndex, heightOffset, xOffset);
+                    SpawnCloud(cloudIndex, heightOffset, xOffset, i);
                 }
             }
         }
     }
 
-    private void SpawnCloud(int index, int heightOffset, int xOffset) {
+    private void SpawnCloud(int index, int heightOffset, int xOffset, int zOffset) {
         Instantiate(clouds[index], new Vector3(transform.position.x + xOffset, 
         transform.position.y + heightOffset, 
-        transform.position.z), Quaternion.identity);
+        transform.position.z +  (Random.value > 0.5 ? -zOffset : zOffset)), Quaternion.identity);
     }
 
-    private void ReactivateCloud(int index, int heightOffset, int xOffset) {
+    private void ReactivateCloud(int index, int heightOffset, int xOffset, int zOffset) {
         Cloud cloud = cloudsToReactivate[index];
         cloud.ResetAlpha();
         cloud.transform.position = new Vector3(transform.position.x + xOffset, 
-        transform.position.y + heightOffset, transform.position.z);
+        transform.position.y + heightOffset, transform.position.z +  (Random.value > 0.5 ? -zOffset : zOffset));
     }
-
-    // unity stops it by default when object is destroyed
-    // private void OnDestroy() {
-    //     StopCoroutine(nameof(Spawner));
-    // }
 }
