@@ -1,8 +1,9 @@
 using UnityEngine;
+using static AnimParamsPlayer;
 
 public class PlayerMovement : MonoBehaviour, IDataPersistence
 {
-    private Rigidbody2D body;
+    [HideInInspector] public Rigidbody2D body;
     private Animator anim;
     private CapsuleCollider2D capsuleCollider;
 
@@ -13,6 +14,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     [Header("Layers")]
     [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private LayerMask ledgeLayer;
     [SerializeField] private LayerMask wallLayer;
 
     [Header("SFX")]
@@ -99,14 +101,14 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     private void Jump() {
         body.velocity = new Vector2(body.velocity.x, jumpPower);
-        anim.SetTrigger("jump trigger");
+        anim.SetTrigger(jump);
         SFXManager.Instance.PlaySound(jumpAudio);
         jumpCount++;
     }
 
     private void CoyoteJump() {
         body.velocity = new Vector2(body.velocity.x, jumpPower * 0.85f);
-        anim.SetTrigger("jump trigger");
+        anim.SetTrigger(jump);
         SFXManager.Instance.PlaySound(jumpAudio);
         jumpCount++;
     }
@@ -114,7 +116,13 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     private bool IsGrounded() {
         RaycastHit2D raycastCapsule = Physics2D.CapsuleCast(capsuleCollider.bounds.center, capsuleCollider.bounds.size, 
         CapsuleDirection2D.Vertical, 0, Vector2.down, 0.1f, groundLayer);
-        return raycastCapsule.collider != null && body.velocity.y == 0;
+        return (raycastCapsule.collider != null && body.velocity.y == 0) || IsOnledge();
+    }
+
+    public bool IsOnledge() {
+        RaycastHit2D raycastCapsule = Physics2D.CapsuleCast(capsuleCollider.bounds.center, capsuleCollider.bounds.size, 
+        CapsuleDirection2D.Vertical, 0, Vector2.down, 0.1f, ledgeLayer);
+        return raycastCapsule.collider != null && body.velocity.y == 0 && !IsTouchingWall();
     }
 
     private bool IsTouchingWall() {
@@ -136,26 +144,17 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         return raycastHit.collider != null;
     }
 
-    // private bool IsTouchingWall() {
-    //     RaycastHit2D raycastCapsule = Physics2D.CapsuleCast(capsuleCollider.bounds.center, capsuleCollider.bounds.size, CapsuleDirection2D.Horizontal, 0, new Vector2(transform.localScale.x, 0), 0.1f, wallLayer);
-    //     if (raycastCapsule.collider != null) {
-    //         touchedWall = true;
-    //         touchingWallDirection = Mathf.Sign(transform.localScale.x);
-    //     }
-    //     return raycastCapsule.collider != null;
-    // }
-
     private void WallJumpVertical() {
         body.velocity = new Vector2(-Mathf.Sign(transform.localScale.x) * 4, 8);
         wallJumpTimer = 0;
-        anim.SetTrigger("jump trigger");
+        anim.SetTrigger(jump);
     }
 
     private void WallJumpHorizontal() {
         body.velocity = IsTouchingWall() ? new Vector2(-Mathf.Sign(transform.localScale.x) * 10, 0) : new Vector2(Mathf.Sign(transform.localScale.x) * 15, 0);
         transform.localScale = new Vector3((IsTouchingWall() ? -1 : 1) * Mathf.Sign(transform.localScale.x), transform.localScale.y, transform.localScale.z);
         wallJumpTimer = 0;
-        anim.SetTrigger("jump trigger");
+        anim.SetTrigger(jump);
     }
 
     private void WallJump() {
@@ -168,13 +167,10 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     }
 
     private void ProvideAnimParams() {
-        anim.SetBool("is running", isRunning);
-        anim.SetBool("is grounded", IsGrounded());
+        anim.SetBool(run, isRunning);
+        anim.SetBool(grounded, IsGrounded());
+        anim.SetBool(onWall, IsTouchingWall());
     }
-
-    // public bool CanAttack() {
-    //     return IsGrounded() && !isRunning;
-    // }
 
     private bool CanDoubleJump() {
         return jumpCount < maxJumpCount;

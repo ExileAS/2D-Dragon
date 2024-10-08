@@ -1,4 +1,5 @@
 using UnityEngine;
+using static AnimParamsPlayer;
 
 public class Health : MonoBehaviour
 {
@@ -65,14 +66,14 @@ public class Health : MonoBehaviour
                 CalcPushBackInitial((float) hitterPositionX);
                 gotHit = true;
             }
-            anim.SetTrigger("hurt");
+            anim.SetTrigger(hurt);
             SFXManager.Instance.PlaySound(hurtAudio);
             StartCoroutine(IFrames.CreateIFrames(spriteRend, IFrameTime));
         } else {
             if(dead) return;
 
             dead = true;
-            anim.SetTrigger("die");
+            anim.SetTrigger(die);
             body.velocity = Vector2.zero;
             SFXManager.Instance.PlaySound(dieAudio);
 

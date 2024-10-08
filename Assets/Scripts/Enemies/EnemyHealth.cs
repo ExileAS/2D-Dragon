@@ -23,12 +23,13 @@ public class EnemyHealth : MonoBehaviour, IDataPersistence
         initialPosition = transform.position;
     }
 
-    public void TakeDamage(float damage) { 
+    public void TakeDamage(float damage, float? IFrameTime = null) {
         currentHealth = Mathf.Clamp(currentHealth-damage, 0, maxHealth);
 
         if(currentHealth > 0) {
             anim.SetTrigger("hurt");
             SFXManager.Instance.PlaySound(hurtAudio);
+            if(IFrameTime != null) StartCoroutine(IFrames.CreateIFramesEnemy((float) IFrameTime));
         } else {
             if(!dead) {
                 dead = true;

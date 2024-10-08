@@ -18,13 +18,4 @@ public class HealthCollectable : MonoBehaviour
             collected = true;
         }
     }
-
-    // public void LoadState(GameData data) {
-    //     data.heartCollectableState.TryGetValue(id, out collected);
-    //     if(collected) {
-    //         gameObject.SetActive(false);
-    //     }
-    // }
-
-    // public void SaveState(ref GameData data) {}
 }

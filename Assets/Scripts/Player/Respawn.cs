@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static AnimParamsPlayer;
 
 public class Respawn : MonoBehaviour
 {
@@ -27,17 +28,15 @@ public class Respawn : MonoBehaviour
     }
 
     private IEnumerator DelayRespawn() {
-        //Syncronous
         var playerMovement =  GetComponent<PlayerMovement>();
         var PlayerAttack = GetComponent<PlayerAttack>();
         playerMovement.enabled = false;
         PlayerAttack.enabled = false;
         RespawnEnemies();
-        //Asyncronous (non-blocking) makes the caller method non blocking too.
         yield return new WaitForSeconds(2);
-        anim.ResetTrigger("die");
+        anim.ResetTrigger(die);
         transform.position = (Vector3) checkPoint;
-        anim.Play("Respawn");
+        anim.Play(respawn);
         playerMovement.enabled = true;
         PlayerAttack.enabled = true;
         health.Heal(3);

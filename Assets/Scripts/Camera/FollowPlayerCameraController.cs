@@ -8,7 +8,6 @@ public class FollowPlayerCameraController : MonoBehaviour
     [SerializeField] private float lookAheadDistance;
     [SerializeField] private float lookVerticalMaxDistance;
     [SerializeField] private float camSpeed;
-    [SerializeField] private float camSpeedVertical;
     private Vector3 velocity = Vector3.zero;
     [SerializeField] private float smoothTime;
     [SerializeField] private float heightOffset;
