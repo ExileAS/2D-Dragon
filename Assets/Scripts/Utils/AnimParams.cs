@@ -7,4 +7,5 @@ public static class AnimParamsPlayer {
     public static string die = "die";
     public static string respawn = "Respawn";
     public static string hurt = "hurt";
+    public static string dash = "dashing";
 }

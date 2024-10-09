@@ -1,16 +1,27 @@
+using System.Collections;
 using UnityEngine;
 using static AnimParamsPlayer;
+using static PhysicsLayers;
 
 public class PlayerMovement : MonoBehaviour, IDataPersistence
 {
     [HideInInspector] public Rigidbody2D body;
     private Animator anim;
     private CapsuleCollider2D capsuleCollider;
+    private SpriteRenderer spriteRenderer;
 
     [Header("Multipliers")]
     [SerializeField] private float speed;
     [SerializeField] private float jumpPower;
     [SerializeField] private float jumpBrakeMultiplier;
+
+    [Header("Dash")]
+    [SerializeField] private float initialDashForce;
+    [SerializeField] private float dashForceIncrease;
+    [SerializeField] private float dashCooldown;
+    [SerializeField] private float dashDurationMin;
+    [SerializeField] private float dashDurationMax;
+    [SerializeField] private float dashBodyVelocityMax;
 
     [Header("Layers")]
     [SerializeField] private LayerMask groundLayer;
@@ -28,6 +39,9 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     [SerializeField] private float WallJumpCD;
     [SerializeField] private float touchingWallDuration;
 
+    [Header("Effects")]
+    [SerializeField] private GameObject trail;
+
     private int jumpCount;
     private float coyoteJumpTimer;
     private float horizontalInput;
@@ -36,19 +50,24 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     private bool isRunning;
     private bool pressedSpacekey;
     private bool touchedWall;
+    private bool isDashing;
+    private bool canDash = true;
 
 
     private void Awake() {
         body = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         capsuleCollider = GetComponent<CapsuleCollider2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         transform.position = new Vector3(-6, 0, 0);
+        trail.SetActive(false);
     }
 
     private void Update() {
         horizontalInput = Input.GetAxisRaw("Horizontal");
-        isRunning = horizontalInput > 0.1F || horizontalInput < -0.1F;
-        body.gravityScale = (IsTouchingWall() && !IsGrounded()) ? 0.3f : 2;
+        isRunning = horizontalInput > 0.1F || horizontalInput < -0.1F && !isDashing;
+        float gravityScale = (IsTouchingWall() && !IsGrounded()) ? 0.3f : 2;
+        body.gravityScale = isDashing ? 0 : gravityScale;
         pressedSpacekey = Input.GetKeyDown(KeyCode.Space);
 
         if(IsGrounded()) {
@@ -71,7 +90,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         LookLeftOrRight(horizontalInput);
         ProvideAnimParams();
 
-        if(pressedSpacekey && (IsGrounded() || CanDoubleJump()) && !IsTouchingWall() && !touchedWall) {
+        if(pressedSpacekey && CanJump()) {
             Jump();
         }
 
@@ -89,7 +108,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         }
 
         if(wallJumpTimer > WallJumpCD) {
-            body.velocity = new Vector2(horizontalInput * speed, body.velocity.y);
+            if(!isDashing) body.velocity = new Vector2(horizontalInput * speed, body.velocity.y);
             if(IsTouchingWall() || touchedWall) {
                 if(IsTouchingWall()) body.velocity = new Vector2(body.velocity.x, 0);
                 if(pressedSpacekey) WallJump();
@@ -97,6 +116,60 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         } else {
                 wallJumpTimer += Time.deltaTime;
             }
+    }
+
+    private void FixedUpdate() {
+        if(canDash && Input.GetKey(KeyCode.LeftShift)) {
+            StartCoroutine(Dash());
+        }
+    }
+
+    private IEnumerator Dash()
+    {
+        isDashing = true;
+        canDash = false;
+        transform.position = new Vector2(transform.position.x, transform.position.y + 0.1f);
+        float xForce = Mathf.Sign(transform.localScale.x) * initialDashForce;
+        body.AddForce(new Vector2(xForce, 0), ForceMode2D.Impulse);
+        float timeElapsed = 0;
+        StartCoroutine(DashIFrames());
+        while(timeElapsed < dashDurationMax) {
+            if(Input.GetKey(KeyCode.LeftShift)) {
+                body.AddForce(new Vector2(Mathf.Sign(transform.localScale.x) * dashForceIncrease, 0), ForceMode2D.Force);
+            } 
+            else if(timeElapsed >= dashDurationMin) break;
+            if(timeElapsed > 0) body.velocity = new Vector2(Mathf.Clamp(body.velocity.x, -dashBodyVelocityMax, dashBodyVelocityMax), 0);
+            timeElapsed += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+        body.velocity = new Vector2(0, body.velocity.y);
+        isDashing = false;
+        yield return new WaitForSeconds(dashCooldown);
+        canDash = true;
+    }
+
+    private IEnumerator DashIFrames() {
+        spriteRenderer.color = Color.grey;
+        trail.SetActive(true);
+        // anim.SetBool(dash, true);
+        Physics2D.IgnoreLayerCollision(player, enemy, true);
+        Physics2D.IgnoreLayerCollision(player, enemyProjectile, true);
+        while(isDashing) {
+            yield return new WaitForEndOfFrame();
+        }
+        spriteRenderer.color = Color.white;
+        trail.SetActive(false);
+        // anim.SetBool(dash, false);
+        Physics2D.IgnoreLayerCollision(player, enemy, false);
+        Physics2D.IgnoreLayerCollision(player, enemyProjectile, false);
+    }
+
+    private bool CanJump() {
+        return (IsGrounded() || CanDoubleJump()) && !IsTouchingWall() && !touchedWall && !isDashing;
+    }
+
+    public bool CanAttack() {
+        return !isDashing;
     }
 
     private void Jump() {
@@ -181,6 +254,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     }
 
     public void LookLeftOrRight(float horizontalInput) {
+        if(isDashing) return;
         if(horizontalInput > 0.01F) {
             transform.localScale = Vector3.one;
         }

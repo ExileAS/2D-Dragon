@@ -41,7 +41,7 @@ public class PlayerAttack : MonoBehaviour
     private void Update() {
         bool pressedAttack = Input.GetMouseButtonDown(0);
 
-        if(CDTimer > attackCD) {
+        if(CDTimer > attackCD && playerMovement.CanAttack()) {
             if(pressedAttack || (hasQueuedAttack && (CDTimer - lastAttackTime) < bufferDuration)) {
                 currentVelocity = body.velocity.x;
                 StartCoroutine(StopToAttack());

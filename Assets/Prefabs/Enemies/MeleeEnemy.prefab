@@ -194,12 +194,15 @@ MonoBehaviour:
   attackCD: 1
   heightOffset: 0.6
   hitBoxDimensions: 1.45
-  hitBoxScaleX: 0.88
-  hitBoxScaleY: 0.88
-  hitBoxRange: 1.07
+  hitBoxScaleX: 0.9
+  hitBoxScaleY: 0.9
+  hitBoxRange: 1
   playerLayer:
     serializedVersion: 2
     m_Bits: 1024
+  doorLayer:
+    serializedVersion: 2
+    m_Bits: 0
   swordAttack: {fileID: 8300000, guid: 110a74edc730f344b998cdb4d791e692, type: 3}
 --- !u!114 &3106169312832057803
 MonoBehaviour:
