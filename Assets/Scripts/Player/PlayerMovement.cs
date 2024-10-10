@@ -51,7 +51,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     private bool isDashing;
     private bool canDash = true;
 
-    private struct PlayerInputs
+    private struct PlayerInputs // for inputs affecting physics calcs.
     {
         public bool dash;
         public bool jump;
@@ -218,6 +218,10 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         RaycastHit2D raycastCapsule = Physics2D.CapsuleCast(capsuleCollider.bounds.center, capsuleCollider.bounds.size, 
         CapsuleDirection2D.Vertical, 0, Vector2.down, 0.1f, ledgeLayer);
         return raycastCapsule.collider != null && body.velocity.y == 0 && !IsTouchingWall();
+    }
+
+    public bool IsInAir() {
+        return !IsGrounded() && !IsTouchingWall();
     }
 
     private bool IsTouchingWall() {

@@ -29,7 +29,13 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private BoxCollider2D box;
     [SerializeField] private float IFrames;
     [SerializeField] private float chargeTime;
- 
+    
+    private struct PlayerInputs // for inputs affecting physics calcs.
+    {
+        public bool attack;
+        public bool plunge;
+    }
+    private PlayerInputs playerInputs;
     
     private void Awake() {
         playerMovement = GetComponent<PlayerMovement>();
@@ -38,22 +44,46 @@ public class PlayerAttack : MonoBehaviour
         box.gameObject.SetActive(false);
     }
 
-    private void Update() {
-        bool pressedAttack = Input.GetMouseButtonDown(0);
-
-        if(CDTimer > attackCD && playerMovement.CanAttack()) {
-            if(pressedAttack || (hasQueuedAttack && (CDTimer - lastAttackTime) < bufferDuration)) {
-                currentVelocity = body.velocity.x;
-                StartCoroutine(StopToAttack());
-                Attack();
-            }
-        } else {
+    private void Update() 
+    {
+        CollectInputs();
+        if(CDTimer < attackCD) {
             CDTimer += Time.deltaTime;
-            if(pressedAttack) {
+            if(playerInputs.attack) {
                 hasQueuedAttack = true;
                 lastAttackTime = CDTimer;
             }
         }
+    }
+
+    private void FixedUpdate() 
+    {
+        if(playerMovement.IsInAir() && playerInputs.plunge) {
+            SuperFall();
+        }
+
+        if(CDTimer >= attackCD && CanAttack()) {
+            currentVelocity = body.velocity.x;
+            StartCoroutine(StopToAttack());
+            Attack();
+        }
+
+        ResetInputs();
+    }
+
+    private void CollectInputs() {
+        if(Input.GetMouseButtonDown(0)) playerInputs.attack = true;
+        if(Input.GetKeyDown(KeyCode.X)) playerInputs.plunge = true;
+    }
+
+    private void ResetInputs() {
+        playerInputs.attack = false;
+        playerInputs.plunge = false;
+    }
+
+    private bool CanAttack() {
+        return playerMovement.CanAttack() &&
+        (playerInputs.attack || (hasQueuedAttack && (CDTimer - lastAttackTime) < bufferDuration));
     }
 
     private void Attack() {
@@ -88,7 +118,7 @@ public class PlayerAttack : MonoBehaviour
         Physics2D.IgnoreLayerCollision(PhysicsLayers.player, PhysicsLayers.enemy, true);
         float timeElapsed = 0;
         while(body.velocity.y < 0) {
-            if(Input.GetKey(KeyCode.X) && Input.GetKey(KeyCode.S)) {
+            if(Input.GetKey(KeyCode.X)) {
                 body.velocity = new Vector2(body.velocity.x, body.velocity.y - fallSpeed);
                 timeElapsed += Time.deltaTime;
             } else timeElapsed = 0;

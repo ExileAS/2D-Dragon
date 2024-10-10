@@ -23,7 +23,6 @@ public static class IFrames {
     }
 
     public static IEnumerator CreateIFramesEnemy(float IFrameTime) {
-        Debug.Log("ignoring");
         Physics2D.IgnoreLayerCollision(playerProjectile, enemy, true);
         yield return new WaitForSeconds(IFrameTime);
         Physics2D.IgnoreLayerCollision(playerProjectile, enemy, false);

@@ -7,7 +7,6 @@ public class FallHitbox : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other) {
         if(other.gameObject.layer == PhysicsLayers.enemy) {
             other.GetComponent<EnemyHealth>().TakeDamage(damage, enemyIFrames);
-            Debug.Log("hit enemy");
         }
     }
 }

@@ -12166,6 +12166,18 @@ PrefabInstance:
       propertyPath: fireBalls.Array.data[9]
       value: 
       objectReference: {fileID: 1595215022}
+    - target: {fileID: 2566476363353359158, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
+      propertyPath: m_Size.x
+      value: 1.9270475
+      objectReference: {fileID: 0}
+    - target: {fileID: 2566476363353359158, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.02943924
+      objectReference: {fileID: 0}
+    - target: {fileID: 2566476363353359158, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.055191696
+      objectReference: {fileID: 0}
     - target: {fileID: 2906717087852172531, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
       propertyPath: m_Enabled
       value: 1
