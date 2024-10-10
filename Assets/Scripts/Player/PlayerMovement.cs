@@ -44,15 +44,22 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     private int jumpCount;
     private float coyoteJumpTimer;
-    private float horizontalInput;
     private float wallJumpTimer;
     private float touchingWallTimer;
     private bool isRunning;
-    private bool pressedSpacekey;
     private bool touchedWall;
     private bool isDashing;
     private bool canDash = true;
 
+    private struct PlayerInputs
+    {
+        public bool dash;
+        public bool jump;
+        public bool jumpCancel;
+        public float horizontalInput; 
+    }
+
+    private PlayerInputs playerInputs;
 
     private void Awake() {
         body = GetComponent<Rigidbody2D>();
@@ -64,11 +71,12 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     }
 
     private void Update() {
-        horizontalInput = Input.GetAxisRaw("Horizontal");
-        isRunning = horizontalInput > 0.1F || horizontalInput < -0.1F && !isDashing;
+        CollectInputs();
+        LookLeftOrRight(playerInputs.horizontalInput);
+        ProvideAnimParams();
+        isRunning = playerInputs.horizontalInput > 0.1F || playerInputs.horizontalInput < -0.1F && !isDashing;
         float gravityScale = (IsTouchingWall() && !IsGrounded()) ? 0.3f : 2;
         body.gravityScale = isDashing ? 0 : gravityScale;
-        pressedSpacekey = Input.GetKeyDown(KeyCode.Space);
 
         if(IsGrounded()) {
             coyoteJumpTimer = coyoteJumpDuration;
@@ -87,41 +95,55 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             }
         }
 
-        LookLeftOrRight(horizontalInput);
-        ProvideAnimParams();
-
-        if(pressedSpacekey && CanJump()) {
-            Jump();
-        }
-
-        if(pressedSpacekey && !IsGrounded() && !IsTouchingWall() && CanCoyoteJump()) {
-            CoyoteJump();
-            coyoteJumpTimer = 0;
-        }
-
         if(!IsGrounded() && coyoteJumpTimer > 0) {
             coyoteJumpTimer -= Time.deltaTime;
         }
 
-        if(!IsGrounded() && Input.GetKeyUp(KeyCode.Space)) {
-            body.velocity = new Vector2(body.velocity.x, body.velocity.y * jumpBrakeMultiplier);
+        if(wallJumpTimer < WallJumpCD) {
+            wallJumpTimer += Time.deltaTime;
         }
-
-        if(wallJumpTimer > WallJumpCD) {
-            if(!isDashing) body.velocity = new Vector2(horizontalInput * speed, body.velocity.y);
-            if(IsTouchingWall() || touchedWall) {
-                if(IsTouchingWall()) body.velocity = new Vector2(body.velocity.x, 0);
-                if(pressedSpacekey) WallJump();
-            } 
-        } else {
-                wallJumpTimer += Time.deltaTime;
-            }
     }
 
     private void FixedUpdate() {
-        if(canDash && Input.GetKey(KeyCode.LeftShift)) {
+        if(playerInputs.dash && canDash) {
             StartCoroutine(Dash());
         }
+
+        if(playerInputs.jump && CanJump()) {
+            Jump();
+        }
+
+        if(playerInputs.jump && !IsGrounded() && !IsTouchingWall() && CanCoyoteJump()) {
+            CoyoteJump();
+            coyoteJumpTimer = 0;
+        }
+
+        if(playerInputs.jumpCancel && !IsGrounded()) {
+            body.velocity = new Vector2(body.velocity.x, body.velocity.y * jumpBrakeMultiplier);
+        }
+
+        if(wallJumpTimer >= WallJumpCD) {
+            if(!isDashing) body.velocity = new Vector2(playerInputs.horizontalInput * speed, body.velocity.y);
+            if(IsTouchingWall() || touchedWall) {
+                if(IsTouchingWall()) body.velocity = new Vector2(body.velocity.x, 0);
+                if(playerInputs.jump) WallJump();
+            }
+        }
+        ResetInputs();
+    }
+
+    private void CollectInputs() {
+        if(Input.GetKeyDown(KeyCode.Space)) playerInputs.jump = true;
+        if(Input.GetKey(KeyCode.LeftShift)) playerInputs.dash = true;
+        if(Input.GetKeyUp(KeyCode.Space)) playerInputs.jumpCancel = true;
+        playerInputs.horizontalInput = Input.GetAxisRaw("Horizontal");
+    }
+
+    private void ResetInputs() {
+        playerInputs.dash = false;
+        playerInputs.jump = false;
+        playerInputs.jumpCancel = false;
+        playerInputs.horizontalInput = 0;
     }
 
     private IEnumerator Dash()
@@ -151,7 +173,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     private IEnumerator DashIFrames() {
         spriteRenderer.color = Color.grey;
         trail.SetActive(true);
-        // anim.SetBool(dash, true);
+        anim.SetBool(dash, true);
         Physics2D.IgnoreLayerCollision(player, enemy, true);
         Physics2D.IgnoreLayerCollision(player, enemyProjectile, true);
         while(isDashing) {
@@ -159,7 +181,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         }
         spriteRenderer.color = Color.white;
         trail.SetActive(false);
-        // anim.SetBool(dash, false);
+        anim.SetBool(dash, false);
         Physics2D.IgnoreLayerCollision(player, enemy, false);
         Physics2D.IgnoreLayerCollision(player, enemyProjectile, false);
     }

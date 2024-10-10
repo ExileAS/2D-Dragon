@@ -26,6 +26,7 @@ public class Timer : MonoBehaviour, IDataPersistence
     }
 
     public void SaveState(ref GameData data) {
+        if(LoadMenuManager.timeSpans == null) return;
         TimeSpan oldSpan;
         TimeSpan.TryParse(LoadMenuManager.timeSpans[PlayerPrefs.GetInt("continue")], out oldSpan);
         TimeSpan span = oldSpan + (DateTime.Now - startTime);
