@@ -13,9 +13,10 @@ TagManager:
   - LeftEdge
   - RightEdge
   - BottomEdge
-  - edge
   - LedgePoint
   - FallHitBox
+  - DashTrail
+  - PlungeBox
   layers:
   - Default
   - TransparentFX

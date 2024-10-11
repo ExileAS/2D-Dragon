@@ -19,16 +19,17 @@ public class PlayerAttack : MonoBehaviour
 
     [Header("SFX")]
     [SerializeField] private AudioClip fireBallAudio;
+
+    [Header("Super Fall")]
+    [SerializeField] private GameObject fallHitBox;
+    [SerializeField] private float fallSpeed;
+    [SerializeField] private float IFrames;
+    [SerializeField] private float chargeTime;
+
     private bool hasQueuedAttack;
     private float lastAttackTime;
     private Rigidbody2D body;
     private float currentVelocity;
-
-    [Header("Super Fall")]
-    [SerializeField] private float fallSpeed;
-    [SerializeField] private BoxCollider2D box;
-    [SerializeField] private float IFrames;
-    [SerializeField] private float chargeTime;
     
     private struct PlayerInputs // for inputs affecting physics calcs.
     {
@@ -41,7 +42,7 @@ public class PlayerAttack : MonoBehaviour
         playerMovement = GetComponent<PlayerMovement>();
         anim = GetComponent<Animator>();
         body = GetComponent<Rigidbody2D>();
-        box.gameObject.SetActive(false);
+        fallHitBox.SetActive(false);
     }
 
     private void Update() 
@@ -58,7 +59,7 @@ public class PlayerAttack : MonoBehaviour
 
     private void FixedUpdate() 
     {
-        if(playerMovement.IsInAir() && playerInputs.plunge) {
+        if(playerInputs.plunge && CanPlunge()) {
             SuperFall();
         }
 
@@ -84,6 +85,10 @@ public class PlayerAttack : MonoBehaviour
     private bool CanAttack() {
         return playerMovement.CanAttack() &&
         (playerInputs.attack || (hasQueuedAttack && (CDTimer - lastAttackTime) < bufferDuration));
+    }
+
+    private bool CanPlunge() {
+        return !PlungeMinDistance.touchingGround && playerMovement.IsInAir();
     }
 
     private void Attack() {
@@ -122,12 +127,12 @@ public class PlayerAttack : MonoBehaviour
                 body.velocity = new Vector2(body.velocity.x, body.velocity.y - fallSpeed);
                 timeElapsed += Time.deltaTime;
             } else timeElapsed = 0;
-            if(!box.gameObject.activeInHierarchy && timeElapsed >= chargeTime) {
-                box.gameObject.SetActive(true);
+            if(!fallHitBox.activeInHierarchy && timeElapsed >= chargeTime) {
+                fallHitBox.SetActive(true);
             }
             yield return new WaitForEndOfFrame();
         }
-        box.gameObject.SetActive(false);
+        fallHitBox.SetActive(false);
         yield return new WaitForSeconds(IFrames);
         Physics2D.IgnoreLayerCollision(PhysicsLayers.player, PhysicsLayers.enemy, false);
     }

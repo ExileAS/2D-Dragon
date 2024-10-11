@@ -58,7 +58,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         public bool jumpCancel;
         public float horizontalInput; 
     }
-
     private PlayerInputs playerInputs;
 
     private void Awake() {
