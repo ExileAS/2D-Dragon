@@ -8194,7 +8194,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -8.535521, y: 3.9956489}
+  m_Offset: {x: -9.151426, y: 3.9956489}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -8205,7 +8205,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.56599045, y: 10.397809}
+  m_Size: {x: 1.7978029, y: 10.397809}
   m_EdgeRadius: 0
 --- !u!50 &1095592235
 Rigidbody2D:
@@ -12086,9 +12086,33 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 328317317488749272, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
-      propertyPath: m_Name
-      value: PlungeBox
+    - target: {fileID: 1677214779990786928, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -6.79
+      objectReference: {fileID: 0}
+    - target: {fileID: 1677214779990786928, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 1677214779990786928, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1677214779990786928, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1677214779990786928, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1677214779990786928, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1677214779990786928, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1677214779990786928, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -12142,70 +12166,6 @@ PrefabInstance:
       propertyPath: fireBalls.Array.data[9]
       value: 
       objectReference: {fileID: 1595215022}
-    - target: {fileID: 2566476363353359158, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
-      propertyPath: m_Size.x
-      value: 1.9270475
-      objectReference: {fileID: 0}
-    - target: {fileID: 2566476363353359158, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
-      propertyPath: m_Offset.x
-      value: -0.02943924
-      objectReference: {fileID: 0}
-    - target: {fileID: 2566476363353359158, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
-      propertyPath: m_Offset.y
-      value: -0.055191696
-      objectReference: {fileID: 0}
-    - target: {fileID: 3100240122923192572, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
-      propertyPath: point
-      value: 
-      objectReference: {fileID: 2144078378}
-    - target: {fileID: 3122541711790345392, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
-      propertyPath: m_PreviewTimeScale
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3122541711790345392, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
-      propertyPath: m_Parameters.colorGradient.atime0
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3122541711790345392, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
-      propertyPath: m_Parameters.colorGradient.atime1
-      value: 65535
-      objectReference: {fileID: 0}
-    - target: {fileID: 3122541711790345392, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
-      propertyPath: m_Parameters.colorGradient.ctime0
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3122541711790345392, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
-      propertyPath: m_Parameters.colorGradient.key0.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3122541711790345392, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
-      propertyPath: m_Parameters.colorGradient.key0.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3122541711790345392, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
-      propertyPath: m_Parameters.colorGradient.key0.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3122541711790345392, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
-      propertyPath: m_Parameters.colorGradient.key1.a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3122541711790345392, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
-      propertyPath: m_Parameters.colorGradient.key1.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3122541711790345392, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
-      propertyPath: m_Parameters.colorGradient.key1.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3122541711790345392, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
-      propertyPath: m_Parameters.colorGradient.key1.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3123498404578626088, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5581028440120845651, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
       propertyPath: checkPointManager
       value: 
@@ -12214,14 +12174,38 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 6843793410258245306, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
+      propertyPath: m_Parameters.widthMultiplier
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6843793410258245306, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6843793410258245306, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6843793410258245306, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].value
+      value: 0.07222934
+      objectReference: {fileID: 0}
+    - target: {fileID: 6843793410258245306, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].inSlope
+      value: -0.4937639
+      objectReference: {fileID: 0}
+    - target: {fileID: 6843793410258245306, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].inWeight
+      value: 0.11250001
+      objectReference: {fileID: 0}
+    - target: {fileID: 6843793410258245306, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].outSlope
+      value: -0.4937639
+      objectReference: {fileID: 0}
     - target: {fileID: 7600248832688105512, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
       propertyPath: uiManager
       value: 
       objectReference: {fileID: 900668289}
-    - target: {fileID: 8146997723249075196, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -16243,11 +16227,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!4 &2144078378 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2747715406323778187, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
-  m_PrefabInstance: {fileID: 1670732501}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &110142025248399713
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -149,7 +149,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     {
         isDashing = true;
         canDash = false;
-        transform.position = new Vector2(transform.position.x, transform.position.y + 0.1f);
+        isRunning = false;
+        transform.position = new Vector2(transform.position.x, transform.position.y + 0.12f);
         float xForce = Mathf.Sign(transform.localScale.x) * initialDashForce;
         body.AddForce(new Vector2(xForce, 0), ForceMode2D.Impulse);
         float timeElapsed = 0;
@@ -170,14 +171,20 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     }
 
     private IEnumerator DashIFrames() {
-        spriteRenderer.color = Color.grey;
+        Color color = new(0.1f, 0.2f, 0.2f);
         trail.SetActive(true);
         anim.SetBool(dash, true);
         Physics2D.IgnoreLayerCollision(player, enemy, true);
         Physics2D.IgnoreLayerCollision(player, enemyProjectile, true);
+        float timeElapsed = 0;
         while(isDashing) {
+            spriteRenderer.color = color;
+            timeElapsed += Time.deltaTime;
+            color.r = Mathf.Lerp(color.r, 1, timeElapsed * timeElapsed / dashDurationMax);
             yield return new WaitForEndOfFrame();
         }
+        spriteRenderer.color = Color.red;
+        yield return new WaitForEndOfFrame();
         spriteRenderer.color = Color.white;
         trail.SetActive(false);
         anim.SetBool(dash, false);
@@ -271,7 +278,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     }
 
     private bool CanDoubleJump() {
-        return jumpCount < maxJumpCount;
+        return jumpCount >= 1 && jumpCount < maxJumpCount;
     }
 
     private bool CanCoyoteJump() {

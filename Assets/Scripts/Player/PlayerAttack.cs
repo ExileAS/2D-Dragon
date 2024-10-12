@@ -74,7 +74,7 @@ public class PlayerAttack : MonoBehaviour
 
     private void CollectInputs() {
         if(Input.GetMouseButtonDown(0)) playerInputs.attack = true;
-        if(Input.GetKeyDown(KeyCode.X)) playerInputs.plunge = true;
+        if(Input.GetKeyDown(KeyCode.C)) playerInputs.plunge = true;
     }
 
     private void ResetInputs() {
@@ -123,7 +123,7 @@ public class PlayerAttack : MonoBehaviour
         Physics2D.IgnoreLayerCollision(PhysicsLayers.player, PhysicsLayers.enemy, true);
         float timeElapsed = 0;
         while(body.velocity.y < 0) {
-            if(Input.GetKey(KeyCode.X)) {
+            if(Input.GetKey(KeyCode.C)) {
                 body.velocity = new Vector2(body.velocity.x, body.velocity.y - fallSpeed);
                 timeElapsed += Time.deltaTime;
             } else timeElapsed = 0;

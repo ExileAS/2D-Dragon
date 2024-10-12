@@ -15,7 +15,7 @@ public class Ledge : MonoBehaviour
 
     private void Update() {
         if(player == null) return;
-        if(Input.GetKey(KeyCode.X) && Input.GetKey(KeyCode.S) && player.IsOnledge() && !started) {
+        if(Input.GetKey(KeyCode.C) && Input.GetKey(KeyCode.S) && player.IsOnledge() && !started) {
             StartCoroutine(IgnoreCollision(player.gameObject.layer, fallDownLedgeDuration));
             playerAttack.SuperFall();
         }
