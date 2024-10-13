@@ -24,8 +24,6 @@ public class UIManager : MonoBehaviour
     private void Awake() {
         gameOverScreen.SetActive(false);
         pauseMenu.SetActive(false);
-        Application.targetFrameRate = 300;
-        Time.timeScale = 1;
         playerAttack.enabled = true;
         soundText.text = VolumeCorrection.GetVolumeToDisplay(VolumeCorrection.CorrectVolumeValue(SFXManager.Instance.currSoundVolume));
         musicText.text = VolumeCorrection.GetVolumeToDisplay(VolumeCorrection.CorrectVolumeValue(SFXManager.Instance.currMusicVolume));

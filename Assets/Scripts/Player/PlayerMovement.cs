@@ -171,7 +171,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     }
 
     private IEnumerator DashIFrames() {
-        Color color = new(0.1f, 0.2f, 0.2f);
+        Color color = new(0.1f, 0.2f, 0.3f);
         trail.SetActive(true);
         anim.SetBool(dash, true);
         Physics2D.IgnoreLayerCollision(player, enemy, true);
@@ -183,7 +183,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             color.r = Mathf.Lerp(color.r, 1, timeElapsed * timeElapsed / dashDurationMax);
             yield return new WaitForEndOfFrame();
         }
-        spriteRenderer.color = Color.red;
         yield return new WaitForEndOfFrame();
         spriteRenderer.color = Color.white;
         trail.SetActive(false);

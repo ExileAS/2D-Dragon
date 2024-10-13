@@ -6535,7 +6535,7 @@ GameObject:
   - component: {fileID: 894599922}
   - component: {fileID: 894599921}
   m_Layer: 0
-  m_Name: TestFPS
+  m_Name: FPSDisplay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8194,7 +8194,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -9.151426, y: 3.9956489}
+  m_Offset: {x: -8.567106, y: 3.9956489}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -8205,7 +8205,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.7978029, y: 10.397809}
+  m_Size: {x: 0.5344057, y: 10.397809}
   m_EdgeRadius: 0
 --- !u!50 &1095592235
 Rigidbody2D:
@@ -12173,34 +12173,6 @@ PrefabInstance:
     - target: {fileID: 5931562396045012685, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 6843793410258245306, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
-      propertyPath: m_Parameters.widthMultiplier
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6843793410258245306, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
-      propertyPath: m_Parameters.widthCurve.m_Curve.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6843793410258245306, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
-      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].time
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6843793410258245306, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
-      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].value
-      value: 0.07222934
-      objectReference: {fileID: 0}
-    - target: {fileID: 6843793410258245306, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
-      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].inSlope
-      value: -0.4937639
-      objectReference: {fileID: 0}
-    - target: {fileID: 6843793410258245306, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
-      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].inWeight
-      value: 0.11250001
-      objectReference: {fileID: 0}
-    - target: {fileID: 6843793410258245306, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
-      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].outSlope
-      value: -0.4937639
       objectReference: {fileID: 0}
     - target: {fileID: 7600248832688105512, guid: b44f1999605b9ce4a99da0ea3b90c64b, type: 3}
       propertyPath: uiManager
