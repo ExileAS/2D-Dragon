@@ -32,6 +32,7 @@ public class Health : MonoBehaviour
     private float pushBack;
     private PlayerMovement playerMovement;
     private bool isPlayingHeartbeat;
+    private AudioSource audioSource;
 
     private void Awake() {
         currentHealth = maxHealth;
@@ -41,6 +42,7 @@ public class Health : MonoBehaviour
         playerMovement = GetComponent<PlayerMovement>();
         Physics2D.IgnoreLayerCollision(10, 11, false);
         Physics2D.IgnoreLayerCollision(10, 13, false);
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Update() {
@@ -49,12 +51,12 @@ public class Health : MonoBehaviour
             HitPushBack();
         }
         if(currentHealth < 2 && !isPlayingHeartbeat && !dead) {
-            SFXManager.Instance.PlayRepeatedly(heartbeat);
-            isPlayingHeartbeat = true;
+            // SFXManager.Instance.PlayRepeatedly(heartbeat);
+            PlayHeartBeat();
         }
         if(currentHealth >= 2 && isPlayingHeartbeat) {
-            SFXManager.Instance.StopSound();
-            isPlayingHeartbeat = false;
+            // SFXManager.Instance.StopSound();
+            StopHeartBeat();
         }
     }
 
@@ -112,5 +114,20 @@ public class Health : MonoBehaviour
     private void CalcPushBackInitial(float hitterPositionX) {
         pushBackDirection = Mathf.Sign(hitterPositionX - transform.position.x);
         pushBack = pushBackDirection * pushBackMultiplier;
+    }
+
+    private void PlayHeartBeat() {
+        isPlayingHeartbeat = true;
+        audioSource.clip = heartbeat;
+        audioSource.loop = true;
+        audioSource.volume = PlayerPrefs.GetFloat("SoundVolume");
+        audioSource.Play();
+    }
+
+    private void StopHeartBeat() {
+        isPlayingHeartbeat = false;
+        audioSource.loop = false;
+        audioSource.Stop();
+        audioSource.clip = null;
     }
 }
